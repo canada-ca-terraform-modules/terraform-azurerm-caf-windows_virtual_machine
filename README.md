@@ -1,4 +1,4 @@
-# Terraform Basic Windows Virtual Machine v2
+# Terraform azurerm_windows_virtual_machine
 
 ## Introduction
 
@@ -28,7 +28,7 @@ Optional (depending on options configured):
 
 ```terraform
 module "jumpbox" {
-  source = "github.com/canada-ca-terraform-modules/basicwindowsvm?ref=20200408.1"
+  source = "github.com/canada-ca-terraform-modules/azurerm_windows_virtual_machine?ref=20200506.1"
 
   name                              = "jumpbox"
   resource_group_name               = "some-RG-Name"
@@ -37,8 +37,9 @@ module "jumpbox" {
   nic_subnetName                    = "some-subnet-name"
   nic_vnetName                      = "some-vnet-name"
   nic_resource_group_name           = "some-vnet-resourcegroup-name"
-  vm_size                           = "Standard_D2_v3"
+  vm_size                           = "Standard_D2s_v3"
   availability_set_id               = "some-availability-set-id"
+  priority                          = "Spot"
 }
 ```
 
@@ -80,6 +81,8 @@ module "jumpbox" {
 | license_type                            | string | no       | Configure Azure Hybrid Benefit BYOL type                                                                                                                                                                    |
 | boot_diagnostic                         | bool   | no       | Should a boot be turned on or not. Default: false                                                                                                                                                           |
 | availability_set_id                     | string | no       | Id of the availaiblity set to join.  Default is null.                                                                                                                                                       |
+| priority                                | string | no       | Specifies what should happen when the Virtual Machine is evicted for price reasons when using a Spot instance. At this time the only supported value is Deallocate. Changing this forces a new resource to be created. |
+
 
 ### tag object
 
@@ -318,23 +321,4 @@ shutdownConfig = {
 
 | Date     | Release    | Change                                                                                    |
 | -------- | ---------- | ----------------------------------------------------------------------------------------- |
-| 20200408 | 20200408.1 | Removing tags from Extensions resources to prevent redeploy on tags update                |
-| 20200402 | 20200402.1 | Add support for AAD login to VM                                                           |
-| 20191119 | 20191119.1 | Fix variable format. Update how workspace is provided to MicrosoftMonitoringAgent WARNING |
-| 20191015 | 20191015.1 | Adopt new VM resource naming convention                                                   |
-| 20191008 | 20191008.1 | Adding support for os and data managed disk type                                          |
-|          |            | Add support for LB backend pool IDs                                                       |
-|          |            | Adding boot diagnostic option                                                             |
-| 20190916 |            | Update README                                                                             |
-| 20190915 | 20190915.1 | Remove the need to internally handle keyvault secrets.                                    |
-|          |            | Update resource names to align with new naming convention                                 |
-|          |            | Update how encryptDisk is handled given the removal of the keyvault variable              |
-| 20190829 | 20190829.1 | Add support for optionally specifying Azure Hybrid Benefit BYOL type                      |
-| 20190827 | 20190827.1 | Add support for multiple IP assigned the NIC                                              |
-| 20190823 |            | Update documentation                                                                      |
-| 20190819 | 20190819.1 | Add support for one or more managed data disks of configurable size                       |
-| 20190813 | 20190813.1 | Add support for joining VM to Active Directory domain                                     |
-| 20190812 | 20190812.1 | Improve documentation. Add testing of module. Improve module dependancy solution.         |
-| 20190806 | 20190806.1 | Add custom dns servers support                                                            |
-| 20190729 | 20190729.1 | Fix bug where custo-script would not properly be installed                                |
-| 20190725 | 20190725.1 | 1st deploy                                                                                |
+| 20200506 | 20200506.1 | 1st commit                |
