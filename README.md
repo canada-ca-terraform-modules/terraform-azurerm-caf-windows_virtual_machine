@@ -28,7 +28,7 @@ Optional (depending on options configured):
 
 ```terraform
 module "jumpbox" {
-  source = "github.com/canada-ca-terraform-modules/azurerm_windows_virtual_machine?ref=20200506.1"
+  source = "github.com/canada-ca-terraform-modules/azurerm_windows_virtual_machine?ref=20200519.1"
 
   name                              = "jumpbox"
   resource_group_name               = "some-RG-Name"
@@ -322,3 +322,4 @@ shutdownConfig = {
 | Date     | Release    | Change                                                                                    |
 | -------- | ---------- | ----------------------------------------------------------------------------------------- |
 | 20200506 | 20200506.1 | 1st commit                |
+| 20200519 | 20200519.1 | Fix issue with non spot instance |
