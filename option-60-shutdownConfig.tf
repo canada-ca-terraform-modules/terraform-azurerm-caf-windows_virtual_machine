@@ -17,7 +17,7 @@ variable "shutdownConfig" {
 resource "azurerm_template_deployment" "autoshutdown" {
   count               = var.shutdownConfig == null ? 0 : 1
   name                = "autoshutdown"
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   depends_on          = [azurerm_virtual_machine_extension.IaaSAntimalware]
   template_body       = <<DEPLOY
 {

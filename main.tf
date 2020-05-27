@@ -1,7 +1,7 @@
 resource azurerm_network_security_group NSG {
   name                = "${var.name}-nsg"
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   dynamic "security_rule" {
     for_each = [for s in var.security_rules : {
       name                       = s.name
@@ -34,7 +34,7 @@ resource azurerm_network_security_group NSG {
 resource "azurerm_storage_account" "boot_diagnostic" {
   count                    = var.boot_diagnostic ? 1 : 0
   name                     = local.storageName
-  resource_group_name      = var.resource_group_name
+  resource_group_name      = var.resource_group.name
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -45,7 +45,7 @@ resource azurerm_public_ip VM-EXT-PubIP {
   count               = var.public_ip ? length(var.nic_ip_configuration.private_ip_address_allocation) : 0
   name                = "${var.name}-pip${count.index + 1}"
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.resource_group.name
   sku                 = "Standard"
   allocation_method   = "Static"
   tags                = var.tags
@@ -54,7 +54,7 @@ resource azurerm_public_ip VM-EXT-PubIP {
 resource azurerm_network_interface NIC {
   name                          = "${var.name}-nic1"
   location                      = var.location
-  resource_group_name           = var.resource_group_name
+  resource_group_name           = var.resource_group.name
   enable_ip_forwarding          = var.nic_enable_ip_forwarding
   enable_accelerated_networking = var.nic_enable_accelerated_networking
   dns_servers                   = var.dnsServers
@@ -81,7 +81,7 @@ resource azurerm_windows_virtual_machine VM {
   name                  = var.name
   depends_on            = [var.vm_depends_on]
   location              = var.location
-  resource_group_name   = var.resource_group_name
+  resource_group_name   = var.resource_group.name
   admin_username        = var.admin_username
   admin_password        = var.admin_password
   computer_name         = var.name
@@ -147,7 +147,7 @@ resource azurerm_managed_disk data_disks {
 
   name                 = "${var.name}-datadisk${count.index + 1}"
   location             = var.location
-  resource_group_name  = var.resource_group_name
+  resource_group_name  = var.resource_group.name
   storage_account_type = var.data_managed_disk_type
   create_option        = "Empty"
   disk_size_gb         = var.data_disk_sizes_gb[count.index]
