@@ -28,7 +28,7 @@ Optional (depending on options configured):
 
 ```terraform
 module "jumpbox" {
-  source = "github.com/canada-ca-terraform-modules/azurerm_windows_virtual_machine?ref=20200521.1"
+  source = "github.com/canada-ca-terraform-modules/azurerm_windows_virtual_machine?ref=20200620.1"
 
   name                              = "jumpbox"
   resource_group                    = "some-RG-Name"
