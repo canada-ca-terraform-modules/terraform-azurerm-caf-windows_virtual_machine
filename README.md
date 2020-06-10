@@ -82,6 +82,7 @@ module "jumpbox" {
 | boot_diagnostic                         | bool   | no       | Should a boot be turned on or not. Default: false                                                                                                                                                                      |
 | availability_set_id                     | string | no       | Id of the availaiblity set to join.  Default is null.                                                                                                                                                                  |
 | priority                                | string | no       | Specifies what should happen when the Virtual Machine is evicted for price reasons when using a Spot instance. At this time the only supported value is Deallocate. Changing this forces a new resource to be created. |
+| deploy                                  | bool   | no       | Should resources in this module be deployed. This is usefull if you want to specify that a module should not be created without changing the terraform code across environments. Default: true                         |
 
 
 ### tag object
@@ -319,9 +320,12 @@ shutdownConfig = {
 
 ## History
 
-| Date     | Release    | Change                                                                         |
-| -------- | ---------- | ------------------------------------------------------------------------------ |
-| 20200506 | 20200506.1 | 1st commit                                                                     |
-| 20200519 | 20200519.1 | Fix issue with non spot instance                                               |
-| 20200521 | 20200521.1 | Make disk encryption dependant on data disk creation completion                |
-| 20200528 | 20200528.1 | Make the resource_group variable an object vs a string to fix dependancy issue |
+| Date     | Release    | Change                                                                                              |
+| -------- | ---------- | --------------------------------------------------------------------------------------------------- |
+| 20200506 | 20200506.1 | 1st commit                                                                                          |
+| 20200519 | 20200519.1 | Fix issue with non spot instance                                                                    |
+| 20200521 | 20200521.1 | Make disk encryption dependant on data disk creation completion                                     |
+| 20200528 | 20200528.1 | Make the resource_group variable an object vs a string to fix dependancy issue                      |
+| 20200610 | 20200610.1 | Support the ability to disable the deployment of a module resources using a variable.               |
+|          |            | This new version will require the redeployment of any resources deployed with previous versions due |
+|          |            | to counter index. Sorry ;-(                                                                         |

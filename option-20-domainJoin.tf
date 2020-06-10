@@ -17,10 +17,14 @@ variable "domainToJoin" {
 }
 
 resource "azurerm_virtual_machine_extension" "DomainJoinExtension" {
-  count                = var.domainToJoin == null ? 0 : 1
+  count                = var.domainToJoin != null && var.deploy ? 1 : 0
   name                 = "DomainJoinExtension"
-  depends_on           = [azurerm_virtual_machine_extension.CustomScriptExtension]
-  virtual_machine_id   = azurerm_windows_virtual_machine.VM.id
+  depends_on           = [
+    azurerm_virtual_machine_extension.CustomScriptExtension,
+    azurerm_virtual_machine_extension.AADLoginForWindows,
+    azurerm_virtual_machine_data_disk_attachment.data_disks
+  ]
+  virtual_machine_id   = azurerm_windows_virtual_machine.VM[0].id
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"
