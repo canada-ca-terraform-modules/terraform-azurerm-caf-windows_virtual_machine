@@ -117,20 +117,7 @@ resource azurerm_windows_virtual_machine VM {
     storage_account_type = var.os_managed_disk_type
     disk_size_gb         = var.storage_os_disk.disk_size_gb
   }
-  /*
-  # This is where the magic to dynamically create storage disk operate
-  dynamic "storage_data_disk" {
-    for_each = var.data_disk_sizes_gb
-    content {
-      name              = "${var.name}-datadisk${storage_data_disk.key + 1}"
-      create_option     = "Empty"
-      lun               = storage_data_disk.key
-      disk_size_gb      = storage_data_disk.value
-      caching           = "ReadWrite"
-      managed_disk_type = var.data_managed_disk_type
-    }
-  }
-  */
+  
   dynamic "boot_diagnostics" {
     for_each = local.boot_diagnostic
     content {
@@ -144,6 +131,15 @@ resource azurerm_windows_virtual_machine VM {
     }
   }
   tags = var.tags
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to username and password because it will require destroying and
+      # recreating the VM and all associated resources. It is better handled within the VM post deployment.
+      # This will prevent disastrous destruction in case someone plan a name and password change.
+      admin_username,
+      admin_password,
+    ]
+  }
 }
 
 resource azurerm_managed_disk data_disks {
