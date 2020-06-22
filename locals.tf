@@ -3,7 +3,7 @@
 locals {
   plan            = var.plan == null ? [] : [var.plan]
   boot_diagnostic = var.boot_diagnostic ? ["1"] : []
-  assign-identity = var.AADLoginForWindows == null ? [] : ["1"]
+  assign-identity = var.AADLoginForWindows == false ? [] : ["1"]
   unique          = substr(sha1(var.resource_group.id), 0, 8)
   fixname         = replace(var.name, "-", "")
   fixname2        = replace(local.fixname, "_", "")
