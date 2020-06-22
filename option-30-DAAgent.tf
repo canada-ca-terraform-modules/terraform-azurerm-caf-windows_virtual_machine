@@ -1,11 +1,12 @@
 /* required for service map to work */
 variable "dependancyAgent" {
   description = "Should the VM be include the dependancy agent"
-  default     = null
+  default     = false
+  type = bool
 }
 
 resource "azurerm_virtual_machine_extension" "DAAgentForWindows" {
-  count                      = var.dependancyAgent != null && var.deploy ? 1 : 0
+  count                      = var.dependancyAgent == true && var.deploy ? 1 : 0
   name                       = "DAAgentForWindows"
   virtual_machine_id         = azurerm_windows_virtual_machine.VM[0].id
   publisher                  = "Microsoft.Azure.Monitoring.DependencyAgent"

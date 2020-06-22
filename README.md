@@ -28,7 +28,7 @@ Optional (depending on options configured):
 
 ```terraform
 module "jumpbox" {
-  source = "github.com/canada-ca-terraform-modules/azurerm_windows_virtual_machine?ref=20200612.1"
+  source = "github.com/canada-ca-terraform-modules/azurerm_windows_virtual_machine?ref=20200622.1"
 
   name                              = "jumpbox"
   resource_group                    = "some-RG-Name"
@@ -330,3 +330,4 @@ shutdownConfig = {
 |          |            | This new version will require the redeployment of any resources deployed with previous versions due   |
 |          |            | to counter index. Sorry ;-(                                                                           |
 | 20200612 | 20200612.1 | Implement lifecycle to prevent redeploying VM resources on username and password change in the config |
+| 20200622 | 20200622.1 | Make AADLoginForWindows and DAAgent extensions type bool                                              |
