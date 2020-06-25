@@ -1,6 +1,6 @@
 resource azurerm_network_security_group NSG {
   count               = var.deploy ? 1 : 0
-  name                = "${var.name}-nsg"
+  name                = "${local.vm-name}-nsg"
   location            = var.location
   resource_group_name = var.resource_group.name
   dynamic "security_rule" {
@@ -29,7 +29,7 @@ resource azurerm_network_security_group NSG {
       description                = security_rule.value.description
     }
   }
-  tags = var.tags
+  tags = local.tags
 }
 
 resource "azurerm_storage_account" "boot_diagnostic" {
@@ -44,17 +44,17 @@ resource "azurerm_storage_account" "boot_diagnostic" {
 # If public_ip is true then create resource. If not then do not create any
 resource azurerm_public_ip VM-EXT-PubIP {
   count               = var.public_ip && var.deploy ? length(var.nic_ip_configuration.private_ip_address_allocation) : 0
-  name                = "${var.name}-pip${count.index + 1}"
+  name                = "${local.vm-name}-pip${count.index + 1}"
   location            = var.location
   resource_group_name = var.resource_group.name
   sku                 = "Standard"
   allocation_method   = "Static"
-  tags                = var.tags
+  tags                = local.tags
 }
 
 resource azurerm_network_interface NIC {
   count                         = var.deploy ? 1 : 0
-  name                          = "${var.name}-nic1"
+  name                          = "${local.vm-name}-nic1"
   location                      = var.location
   resource_group_name           = var.resource_group.name
   enable_ip_forwarding          = var.nic_enable_ip_forwarding
@@ -71,7 +71,7 @@ resource azurerm_network_interface NIC {
       primary                       = ip_configuration.key == 0 ? true : false
     }
   }
-  tags = var.tags
+  tags = local.tags
 }
 
 resource azurerm_network_interface_security_group_association nic-nsg {
@@ -82,13 +82,13 @@ resource azurerm_network_interface_security_group_association nic-nsg {
 
 resource azurerm_windows_virtual_machine VM {
   count                 = var.deploy ? 1 : 0
-  name                  = var.name
+  name                  = local.vm-name
   depends_on            = [var.vm_depends_on]
   location              = var.location
   resource_group_name   = var.resource_group.name
   admin_username        = var.admin_username
   admin_password        = var.admin_password
-  computer_name         = var.name
+  computer_name         = local.vm-name
   custom_data           = var.custom_data
   size                  = var.vm_size
   priority              = var.priority
@@ -112,7 +112,7 @@ resource azurerm_windows_virtual_machine VM {
   }
   provision_vm_agent = true
   os_disk {
-    name                 = "${var.name}-osdisk1"
+    name                 = "${local.vm-name}-osdisk1"
     caching              = var.storage_os_disk.caching
     storage_account_type = var.os_managed_disk_type
     disk_size_gb         = var.storage_os_disk.disk_size_gb
@@ -130,7 +130,7 @@ resource azurerm_windows_virtual_machine VM {
       type = "SystemAssigned"
     }
   }
-  tags = var.tags
+  tags = local.tags
   lifecycle {
     ignore_changes = [
       # Ignore changes to username and password because it will require destroying and
@@ -145,7 +145,7 @@ resource azurerm_windows_virtual_machine VM {
 resource azurerm_managed_disk data_disks {
   count = length(var.data_disk_sizes_gb) * ( var.deploy == true ? 1 : 0 )
 
-  name                 = "${var.name}-datadisk${count.index + 1}"
+  name                 = "${local.vm-name}-datadisk${count.index + 1}"
   location             = var.location
   resource_group_name  = var.resource_group.name
   storage_account_type = var.data_managed_disk_type
