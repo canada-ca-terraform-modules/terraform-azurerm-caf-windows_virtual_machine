@@ -13,29 +13,29 @@ variable "tags" {
 
 variable "deploy" {
   description = "Should resources in this module be deployed"
-  default = true
+  default     = true
 }
 
 variable "env" {
   description = "4 chars env name"
-  type = "string"
+  type        = "string"
 }
 
 variable "serverType" {
   description = "3 chars server type"
-  type = "string"
-  default = "SRV"
+  type        = "string"
+  default     = "SRV"
 }
 
 variable "userDefinedString" {
   description = "User defined portion of the server name. Up to 8 chars minus the postfix lenght"
-  type = "string"
+  type        = "string"
 }
 
 variable "postfix" {
   description = "(Optional) Desired postfix value for the name. Max 3 chars."
-  type = "string"
-  default = ""
+  type        = "string"
+  default     = ""
 }
 
 variable "data_disk_sizes_gb" {
@@ -171,10 +171,10 @@ variable "boot_diagnostic" {
 
 variable "priority" {
   description = "Specifies the priority of this Virtual Machine. Possible values are Regular and Spot. Defaults to Regular. Changing this forces a new resource to be created."
-  default = "Regular"
+  default     = "Regular"
 }
 
 variable "eviction_policy" {
   description = "Specifies what should happen when the Virtual Machine is evicted for price reasons when using a Spot instance. At this time the only supported value is Deallocate. Changing this forces a new resource to be created."
-  default = "Deallocate"
+  default     = "Deallocate"
 }

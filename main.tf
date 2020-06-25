@@ -117,7 +117,7 @@ resource azurerm_windows_virtual_machine VM {
     storage_account_type = var.os_managed_disk_type
     disk_size_gb         = var.storage_os_disk.disk_size_gb
   }
-  
+
   dynamic "boot_diagnostics" {
     for_each = local.boot_diagnostic
     content {
@@ -143,7 +143,7 @@ resource azurerm_windows_virtual_machine VM {
 }
 
 resource azurerm_managed_disk data_disks {
-  count = length(var.data_disk_sizes_gb) * ( var.deploy == true ? 1 : 0 )
+  count = length(var.data_disk_sizes_gb) * (var.deploy == true ? 1 : 0)
 
   name                 = "${local.vm-name}-datadisk${count.index + 1}"
   location             = var.location
@@ -154,7 +154,7 @@ resource azurerm_managed_disk data_disks {
 }
 
 resource azurerm_virtual_machine_data_disk_attachment data_disks {
-  count = length(var.data_disk_sizes_gb) * ( var.deploy == true ? 1 : 0 )
+  count = length(var.data_disk_sizes_gb) * (var.deploy == true ? 1 : 0)
 
   managed_disk_id    = azurerm_managed_disk.data_disks[count.index].id
   virtual_machine_id = azurerm_windows_virtual_machine.VM[0].id

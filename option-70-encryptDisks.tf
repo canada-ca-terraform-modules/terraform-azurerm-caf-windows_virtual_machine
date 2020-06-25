@@ -15,11 +15,11 @@ variable "encryptDisks" {
 
 resource "azurerm_virtual_machine_extension" "AzureDiskEncryption" {
 
-  count                      = var.encryptDisks != null && var.deploy ? 1 : 0
-  name                       = "AzureDiskEncryption"
-  depends_on                 = [
+  count = var.encryptDisks != null && var.deploy ? 1 : 0
+  name  = "AzureDiskEncryption"
+  depends_on = [
     azurerm_virtual_machine_extension.CustomScriptExtension,
-    azurerm_virtual_machine_extension.DomainJoinExtension, 
+    azurerm_virtual_machine_extension.DomainJoinExtension,
     azurerm_virtual_machine_extension.AADLoginForWindows,
     azurerm_virtual_machine_extension.DAAgentForWindows,
     azurerm_virtual_machine_extension.MicrosoftMonitoringAgent,

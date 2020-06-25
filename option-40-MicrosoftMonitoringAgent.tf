@@ -15,11 +15,11 @@ variable "monitoringAgent" {
 
 resource "azurerm_virtual_machine_extension" "MicrosoftMonitoringAgent" {
 
-  count                      = var.monitoringAgent != null && var.deploy ? 1 : 0
-  name                       = "MicrosoftMonitoringAgent"
-  depends_on                 = [
+  count = var.monitoringAgent != null && var.deploy ? 1 : 0
+  name  = "MicrosoftMonitoringAgent"
+  depends_on = [
     azurerm_virtual_machine_extension.CustomScriptExtension,
-    azurerm_virtual_machine_extension.DomainJoinExtension, 
+    azurerm_virtual_machine_extension.DomainJoinExtension,
     azurerm_virtual_machine_extension.AADLoginForWindows,
     azurerm_virtual_machine_extension.DAAgentForWindows,
     azurerm_virtual_machine_data_disk_attachment.data_disks

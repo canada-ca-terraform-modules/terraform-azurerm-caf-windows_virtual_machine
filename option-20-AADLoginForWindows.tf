@@ -2,7 +2,7 @@
 variable "AADLoginForWindows" {
   description = "Should the VM be include the dependancy agent"
   default     = false
-  type = bool
+  type        = bool
 }
 
 resource "azurerm_virtual_machine_extension" "AADLoginForWindows" {
@@ -13,7 +13,7 @@ resource "azurerm_virtual_machine_extension" "AADLoginForWindows" {
   type                       = "AADLoginForWindows"
   type_handler_version       = "0.3"
   auto_upgrade_minor_version = true
-  depends_on                 = [
+  depends_on = [
     azurerm_virtual_machine_extension.CustomScriptExtension,
     azurerm_virtual_machine_data_disk_attachment.data_disks
   ]

@@ -2,7 +2,7 @@
 variable "dependancyAgent" {
   description = "Should the VM be include the dependancy agent"
   default     = false
-  type = bool
+  type        = bool
 }
 
 resource "azurerm_virtual_machine_extension" "DAAgentForWindows" {
@@ -13,9 +13,9 @@ resource "azurerm_virtual_machine_extension" "DAAgentForWindows" {
   type                       = "DependencyAgentWindows"
   type_handler_version       = "9.5"
   auto_upgrade_minor_version = true
-  depends_on                 = [
+  depends_on = [
     azurerm_virtual_machine_extension.CustomScriptExtension,
-    azurerm_virtual_machine_extension.DomainJoinExtension, 
+    azurerm_virtual_machine_extension.DomainJoinExtension,
     azurerm_virtual_machine_extension.AADLoginForWindows,
     azurerm_virtual_machine_data_disk_attachment.data_disks
   ]

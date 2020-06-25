@@ -17,9 +17,9 @@ variable "domainToJoin" {
 }
 
 resource "azurerm_virtual_machine_extension" "DomainJoinExtension" {
-  count                = var.domainToJoin != null && var.deploy ? 1 : 0
-  name                 = "DomainJoinExtension"
-  depends_on           = [
+  count = var.domainToJoin != null && var.deploy ? 1 : 0
+  name  = "DomainJoinExtension"
+  depends_on = [
     azurerm_virtual_machine_extension.CustomScriptExtension,
     azurerm_virtual_machine_extension.AADLoginForWindows,
     azurerm_virtual_machine_data_disk_attachment.data_disks

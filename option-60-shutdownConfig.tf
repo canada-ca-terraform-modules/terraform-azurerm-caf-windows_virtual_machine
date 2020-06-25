@@ -18,16 +18,16 @@ resource "azurerm_template_deployment" "autoshutdown" {
   count               = var.shutdownConfig != null && var.deploy ? 1 : 0
   name                = "autoshutdown"
   resource_group_name = var.resource_group.name
-  depends_on                 = [
+  depends_on = [
     azurerm_virtual_machine_extension.CustomScriptExtension,
-    azurerm_virtual_machine_extension.DomainJoinExtension, 
+    azurerm_virtual_machine_extension.DomainJoinExtension,
     azurerm_virtual_machine_extension.AADLoginForWindows,
     azurerm_virtual_machine_extension.DAAgentForWindows,
     azurerm_virtual_machine_extension.MicrosoftMonitoringAgent,
     azurerm_virtual_machine_extension.IaaSAntimalware,
     azurerm_virtual_machine_data_disk_attachment.data_disks
   ]
-  template_body       = <<DEPLOY
+  template_body = <<DEPLOY
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
@@ -80,10 +80,10 @@ DEPLOY
 
   # these key-value pairs are passed into the ARM Template's `parameters` block
   parameters = {
-    "computerName" = azurerm_windows_virtual_machine.VM[0].name
-    "autoShutdownStatus" = var.shutdownConfig.autoShutdownStatus
-    "autoShutdownTime" = var.shutdownConfig.autoShutdownTime
-    "autoShutdownTimeZone" = var.shutdownConfig.autoShutdownTimeZone
+    "computerName"                   = azurerm_windows_virtual_machine.VM[0].name
+    "autoShutdownStatus"             = var.shutdownConfig.autoShutdownStatus
+    "autoShutdownTime"               = var.shutdownConfig.autoShutdownTime
+    "autoShutdownTimeZone"           = var.shutdownConfig.autoShutdownTimeZone
     "autoShutdownNotificationStatus" = var.shutdownConfig.autoShutdownNotificationStatus
   }
 
