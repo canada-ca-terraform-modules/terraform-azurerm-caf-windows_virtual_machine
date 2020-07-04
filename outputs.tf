@@ -1,15 +1,23 @@
-output "vm" {
-  value = azurerm_windows_virtual_machine.VM
+output "name" {
+  depends_on = [azurerm_linux_virtual_machine.VM[0]]
+  value = azurerm_linux_virtual_machine.VM[0].name
 }
 
-output "Nic0" {
-  value = azurerm_network_interface.NIC
+output "id" {
+  depends_on = [azurerm_linux_virtual_machine.VM[0]]
+  value = azurerm_linux_virtual_machine.VM[0].id
+}
+output "vm" {
+  depends_on = [azurerm_linux_virtual_machine.VM[0]]
+  value = azurerm_windows_virtual_machine.VM[0]
 }
 
 output "pip" {
-  value = azurerm_public_ip.VM-EXT-PubIP
+  depends_on = [azurerm_public_ip.VM-EXT-PubIP[0]]
+  value = azurerm_public_ip.VM-EXT-PubIP[0]
 }
 
 output "nic" {
-  value = azurerm_network_interface.NIC
+  depends_on = [azurerm_network_interface.NIC[0]]
+  value = azurerm_network_interface.NIC[0]
 }

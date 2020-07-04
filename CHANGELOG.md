@@ -1,3 +1,13 @@
+## v1.0.2 (July 2020)
+
+FEATURES: 
+
+IMPROVEMENTS:
+
+* Fix output error when deploy is false
+
+BUGS:
+
 ## v1.0.1 (June 2020)
 
 FEATURES: 
