@@ -14,7 +14,7 @@ output "vm" {
 
 output "pip" {
   depends_on = [azurerm_public_ip.VM-EXT-PubIP[0]]
-  value      = var.var.public_ip ? azurerm_public_ip.VM-EXT-PubIP[0] : null
+  value      = var.public_ip ? azurerm_public_ip.VM-EXT-PubIP[0] : null
 }
 
 output "nic" {
