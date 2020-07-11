@@ -1,14 +1,14 @@
 output "name" {
-  depends_on = [azurerm_linux_virtual_machine.VM[0]]
-  value      = azurerm_linux_virtual_machine.VM[0].name
+  depends_on = [azurerm_windows_virtual_machine.VM[0]]
+  value      = azurerm_windows_virtual_machine.VM[0].name
 }
 
 output "id" {
-  depends_on = [azurerm_linux_virtual_machine.VM[0]]
-  value      = azurerm_linux_virtual_machine.VM[0].id
+  depends_on = [azurerm_windows_virtual_machine.VM[0]]
+  value      = azurerm_windows_virtual_machine.VM[0].id
 }
 output "vm" {
-  depends_on = [azurerm_linux_virtual_machine.VM[0]]
+  depends_on = [azurerm_windows_virtual_machine.VM[0]]
   value      = azurerm_windows_virtual_machine.VM[0]
 }
 
