@@ -102,6 +102,10 @@ variable "security_rules" {
   ]
 }
 
+variable "asg" {
+  description = "ASG resource to join the NIC to"
+  default     = null
+}
 
 variable "public_ip" {
   description = "Should the VM be assigned public IP(s). True or false."
