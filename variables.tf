@@ -104,7 +104,7 @@ variable "security_rules" {
 
 variable "asg" {
   description = "ASG resource to join the NIC to"
-  default = null
+  default     = null
 }
 
 variable "public_ip" {

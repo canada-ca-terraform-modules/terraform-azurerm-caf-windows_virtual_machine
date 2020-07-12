@@ -16,6 +16,18 @@ variable "domainToJoin" {
   default     = null
 }
 
+/*
+
+Provide a list of resourced the domain join might depend on. For example... the completion of the ADDS servers
+for example.
+
+*/
+
+variable "domain_join_depends_on" {
+  type    = any
+  default = null
+}
+
 resource "azurerm_virtual_machine_extension" "DomainJoinExtension" {
   count = var.domainToJoin != null && var.deploy ? 1 : 0
   name  = "DomainJoinExtension"

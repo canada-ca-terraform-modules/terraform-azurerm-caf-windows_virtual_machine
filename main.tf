@@ -75,7 +75,7 @@ resource azurerm_network_interface NIC {
 }
 
 resource azurerm_network_interface_application_security_group_association asg {
-  count = var.asg != null && var.deploy ? 1 : 0
+  count                         = var.asg != null && var.deploy ? 1 : 0
   network_interface_id          = azurerm_network_interface.NIC[0].id
   application_security_group_id = var.asg.id
 }
