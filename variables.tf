@@ -164,6 +164,11 @@ variable "license_type" {
   default     = null
 }
 
+variable "provision_vm_agent" {
+  type    = bool
+  default = true
+}
+
 variable "availability_set_id" {
   description = "Sets the id for the availability set to use for the VM"
   default     = null
@@ -171,6 +176,10 @@ variable "availability_set_id" {
 
 variable "boot_diagnostic" {
   default = false
+}
+
+variable "use_nic_nsg" {
+  default = true
 }
 
 variable "priority" {
