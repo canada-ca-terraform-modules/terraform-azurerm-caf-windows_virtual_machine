@@ -320,5 +320,6 @@ shutdownConfig = {
 
 | Date     | Release | Change                                              |
 | -------- | ------- | --------------------------------------------------- |
+| 20200728 | v1.0.4  | Fix issue with LB                                   |
 | 20200728 | v1.0.3  | Fix issue with outputs failing when deploy is false |
 | 20200625 | v1.0.0  | 1st commit                                          |
