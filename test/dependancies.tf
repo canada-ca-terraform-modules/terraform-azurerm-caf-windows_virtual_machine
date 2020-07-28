@@ -15,7 +15,7 @@ resource "azurerm_subnet" "subnet1" {
   resource_group_name  = azurerm_resource_group.test-RG.name
   address_prefixes     = ["10.10.10.0/27"]
 }
-
+/*
 resource "azurerm_key_vault" "test-keyvault" {
   name                            = "test-${substr(sha1("${data.azurerm_client_config.current.subscription_id}${azurerm_resource_group.test-RG.name}"), 0, 8)}-kv"
   location                        = var.location
@@ -26,55 +26,6 @@ resource "azurerm_key_vault" "test-keyvault" {
   enabled_for_disk_encryption     = true
   enabled_for_template_deployment = true
 }
-/*
-resource "azurerm_key_vault_access_policy" "test-keyvault" {
-  key_vault_id = azurerm_key_vault.test-keyvault.id
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  object_id = var.keyvault-access-group
-  key_permissions = [
-    "Get",
-    "List",
-    "Update",
-    "Create",
-    "Import",
-    "Delete",
-    "Recover",
-    "Backup",
-    "Restore",
-  ]
-  secret_permissions = [
-    "Get",
-    "List",
-    "Set",
-    "Delete",
-    "Recover",
-    "Backup",
-    "Restore",
-  ]
-  certificate_permissions = [
-    "Get",
-    "List",
-    "Update",
-    "Create",
-    "Import",
-    "Delete",
-    "Recover",
-    "Backup",
-    "Restore",
-    "ManageContacts",
-    "ManageIssuers",
-    "GetIssuers",
-    "ListIssuers",
-    "SetIssuers",
-    "DeleteIssuers",
-  ]
-}
-resource "azurerm_key_vault_secret" "serverPassword" {
-  name         = "serverPassword"
-  value        = "Canada123!"
-  key_vault_id = azurerm_key_vault.test-keyvault.id
-}
-*/
 
 resource "azurerm_log_analytics_workspace" "logAnalyticsWS" {
   name                = "test-${substr(sha1("${data.azurerm_client_config.current.subscription_id}${azurerm_resource_group.test-RG.name}"), 0, 8)}-law"
@@ -82,3 +33,4 @@ resource "azurerm_log_analytics_workspace" "logAnalyticsWS" {
   resource_group_name = azurerm_resource_group.test-RG.name
   sku                 = "pergb2018"
 }
+*/

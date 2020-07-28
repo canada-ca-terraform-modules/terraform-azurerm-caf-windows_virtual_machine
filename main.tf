@@ -75,9 +75,9 @@ resource azurerm_network_interface NIC {
 }
 
 resource azurerm_network_interface_backend_address_pool_association LB {
-  count = length(var.load_balancer_backend_address_pools_ids)
+  count = var.deploy ? length(var.load_balancer_backend_address_pools_ids) : 0
 
-  network_interface_id    = azurerm_network_interface.NIC.id
+  network_interface_id    = var.deploy ? azurerm_network_interface.NIC[0].id : null
   ip_configuration_name   = "ipconfig1"
   backend_address_pool_id = var.load_balancer_backend_address_pools_ids[count.index]
 }
