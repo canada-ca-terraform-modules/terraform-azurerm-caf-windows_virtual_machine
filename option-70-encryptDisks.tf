@@ -15,7 +15,7 @@ variable "encryptDisks" {
 
 resource "azurerm_virtual_machine_extension" "AzureDiskEncryption" {
 
-  count = var.encryptDisks != null && var.deploy ? 1 : 0
+  count = var.encryptDisks != null ? 1 : 0
   name  = "AzureDiskEncryption"
   depends_on = [
     azurerm_virtual_machine_extension.CustomScriptExtension,
@@ -27,7 +27,7 @@ resource "azurerm_virtual_machine_extension" "AzureDiskEncryption" {
     azurerm_template_deployment.autoshutdown,
     azurerm_virtual_machine_data_disk_attachment.data_disks
   ]
-  virtual_machine_id         = azurerm_windows_virtual_machine.VM[0].id
+  virtual_machine_id         = azurerm_windows_virtual_machine.VM.id
   publisher                  = "Microsoft.Azure.Security"
   type                       = "AzureDiskEncryption"
   type_handler_version       = "2.2"

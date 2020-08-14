@@ -29,7 +29,7 @@ variable "domain_join_depends_on" {
 }
 
 resource "azurerm_virtual_machine_extension" "DomainJoinExtension" {
-  count = var.domainToJoin != null && var.deploy ? 1 : 0
+  count = var.domainToJoin != null ? 1 : 0
   name  = "DomainJoinExtension"
   depends_on = [
     var.domain_join_depends_on,
@@ -37,7 +37,7 @@ resource "azurerm_virtual_machine_extension" "DomainJoinExtension" {
     azurerm_virtual_machine_extension.AADLoginForWindows,
     azurerm_virtual_machine_data_disk_attachment.data_disks
   ]
-  virtual_machine_id   = azurerm_windows_virtual_machine.VM[0].id
+  virtual_machine_id   = azurerm_windows_virtual_machine.VM.id
   publisher            = "Microsoft.Compute"
   type                 = "JsonADDomainExtension"
   type_handler_version = "1.3"

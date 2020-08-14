@@ -11,11 +11,6 @@ variable "tags" {
   }
 }
 
-variable "deploy" {
-  description = "Should resources in this module be deployed"
-  default     = true
-}
-
 variable "env" {
   description = "4 chars env name"
   type        = string
@@ -50,6 +45,9 @@ variable "subnet" {
 variable "dnsServers" {
   description = "List of DNS servers IP addresses to use for this NIC, overrides the VNet-level server list"
   default     = null
+}
+variable "use_nic_nsg" {
+  default = true
 }
 variable "nic_enable_ip_forwarding" {
   description = "Enables IP Forwarding on the NIC."

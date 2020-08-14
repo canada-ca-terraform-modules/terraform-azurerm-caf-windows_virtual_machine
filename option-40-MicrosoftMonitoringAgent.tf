@@ -15,7 +15,7 @@ variable "monitoringAgent" {
 
 resource "azurerm_virtual_machine_extension" "MicrosoftMonitoringAgent" {
 
-  count = var.monitoringAgent != null && var.deploy ? 1 : 0
+  count = var.monitoringAgent != null ? 1 : 0
   name  = "MicrosoftMonitoringAgent"
   depends_on = [
     azurerm_virtual_machine_extension.CustomScriptExtension,
@@ -24,7 +24,7 @@ resource "azurerm_virtual_machine_extension" "MicrosoftMonitoringAgent" {
     azurerm_virtual_machine_extension.DAAgentForWindows,
     azurerm_virtual_machine_data_disk_attachment.data_disks
   ]
-  virtual_machine_id         = azurerm_windows_virtual_machine.VM[0].id
+  virtual_machine_id         = azurerm_windows_virtual_machine.VM.id
   publisher                  = "Microsoft.EnterpriseCloud.Monitoring"
   type                       = "MicrosoftMonitoringAgent"
   type_handler_version       = "1.0"

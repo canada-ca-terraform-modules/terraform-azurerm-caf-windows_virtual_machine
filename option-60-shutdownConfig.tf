@@ -15,7 +15,7 @@ variable "shutdownConfig" {
 }
 
 resource "azurerm_template_deployment" "autoshutdown" {
-  count               = var.shutdownConfig != null && var.deploy ? 1 : 0
+  count               = var.shutdownConfig != null ? 1 : 0
   name                = "autoshutdown"
   resource_group_name = var.resource_group.name
   depends_on = [
@@ -80,7 +80,7 @@ DEPLOY
 
   # these key-value pairs are passed into the ARM Template's `parameters` block
   parameters = {
-    "computerName"                   = azurerm_windows_virtual_machine.VM[0].name
+    "computerName"                   = azurerm_windows_virtual_machine.VM.name
     "autoShutdownStatus"             = var.shutdownConfig.autoShutdownStatus
     "autoShutdownTime"               = var.shutdownConfig.autoShutdownTime
     "autoShutdownTimeZone"           = var.shutdownConfig.autoShutdownTimeZone
