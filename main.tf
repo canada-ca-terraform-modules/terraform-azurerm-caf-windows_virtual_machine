@@ -1,5 +1,5 @@
 resource azurerm_network_security_group NSG {
-  count               = var.deploy ? 1 : 0
+  count               = var.use_nic_nsg ? 1 : 0
   name                = "${local.vm-name}-nsg"
   location            = var.location
   resource_group_name = var.resource_group.name
@@ -33,7 +33,7 @@ resource azurerm_network_security_group NSG {
 }
 
 resource "azurerm_storage_account" "boot_diagnostic" {
-  count                    = var.boot_diagnostic && var.deploy ? 1 : 0 # This implement an AND condition for OR use 
+  count                    = var.boot_diagnostic ? 1 : 0
   name                     = local.storageName
   resource_group_name      = var.resource_group.name
   location                 = var.location
@@ -43,7 +43,7 @@ resource "azurerm_storage_account" "boot_diagnostic" {
 
 # If public_ip is true then create resource. If not then do not create any
 resource azurerm_public_ip VM-EXT-PubIP {
-  count               = var.public_ip && var.deploy ? length(var.nic_ip_configuration.private_ip_address_allocation) : 0
+  count               = var.public_ip ? length(var.nic_ip_configuration.private_ip_address_allocation) : 0
   name                = "${local.vm-name}-pip${count.index + 1}"
   location            = var.location
   resource_group_name = var.resource_group.name
@@ -53,8 +53,8 @@ resource azurerm_public_ip VM-EXT-PubIP {
 }
 
 resource azurerm_network_interface NIC {
-  count                         = var.deploy ? 1 : 0
   name                          = "${local.vm-name}-nic1"
+  depends_on                    = [var.nic_depends_on]
   location                      = var.location
   resource_group_name           = var.resource_group.name
   enable_ip_forwarding          = var.nic_enable_ip_forwarding
@@ -75,27 +75,25 @@ resource azurerm_network_interface NIC {
 }
 
 resource azurerm_network_interface_backend_address_pool_association LB {
-  count = var.deploy ? length(var.load_balancer_backend_address_pools_ids) : 0
+  for_each = toset(var.load_balancer_backend_address_pools_ids)
 
-  network_interface_id    = var.deploy ? azurerm_network_interface.NIC[0].id : null
+  network_interface_id    = azurerm_network_interface.NIC.id
   ip_configuration_name   = "ipconfig1"
-  backend_address_pool_id = var.load_balancer_backend_address_pools_ids[count.index]
+  backend_address_pool_id = each.key
 }
 
 resource azurerm_network_interface_application_security_group_association asg {
-  count                         = var.asg != null && var.deploy ? 1 : 0
-  network_interface_id          = azurerm_network_interface.NIC[0].id
+  count                         = var.asg != null ? 1 : 0
+  network_interface_id          = azurerm_network_interface.NIC.id
   application_security_group_id = var.asg.id
 }
 
 resource azurerm_network_interface_security_group_association nic-nsg {
-  count                     = var.deploy ? 1 : 0
-  network_interface_id      = azurerm_network_interface.NIC[0].id
+  network_interface_id      = azurerm_network_interface.NIC.id
   network_security_group_id = azurerm_network_security_group.NSG[0].id
 }
 
 resource azurerm_windows_virtual_machine VM {
-  count                 = var.deploy ? 1 : 0
   name                  = local.vm-name
   depends_on            = [var.vm_depends_on]
   location              = var.location
@@ -107,7 +105,7 @@ resource azurerm_windows_virtual_machine VM {
   size                  = var.vm_size
   priority              = var.priority
   eviction_policy       = local.eviction_policy
-  network_interface_ids = [azurerm_network_interface.NIC[0].id]
+  network_interface_ids = [azurerm_network_interface.NIC.id]
   availability_set_id   = var.availability_set_id
   license_type          = var.license_type == null ? null : var.license_type
   source_image_reference {
@@ -157,7 +155,7 @@ resource azurerm_windows_virtual_machine VM {
 }
 
 resource azurerm_managed_disk data_disks {
-  count = length(var.data_disk_sizes_gb) * (var.deploy == true ? 1 : 0)
+  count = length(var.data_disk_sizes_gb)
 
   name                 = "${local.vm-name}-datadisk${count.index + 1}"
   location             = var.location
@@ -168,10 +166,10 @@ resource azurerm_managed_disk data_disks {
 }
 
 resource azurerm_virtual_machine_data_disk_attachment data_disks {
-  count = length(var.data_disk_sizes_gb) * (var.deploy == true ? 1 : 0)
+  count = length(var.data_disk_sizes_gb)
 
   managed_disk_id    = azurerm_managed_disk.data_disks[count.index].id
-  virtual_machine_id = azurerm_windows_virtual_machine.VM[0].id
+  virtual_machine_id = azurerm_windows_virtual_machine.VM.id
   lun                = count.index
   caching            = "ReadWrite"
 }
