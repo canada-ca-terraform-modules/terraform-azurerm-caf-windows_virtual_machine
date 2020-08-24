@@ -16,7 +16,7 @@ variable "shutdownConfig" {
 
 resource "azurerm_template_deployment" "autoshutdown" {
   count               = var.shutdownConfig != null ? 1 : 0
-  name                = "autoshutdown"
+  name                = "autoshutdown-${azurerm_windows_virtual_machine.VM.name}"
   resource_group_name = var.resource_group.name
   depends_on = [
     azurerm_virtual_machine_extension.CustomScriptExtension,
