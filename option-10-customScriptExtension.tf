@@ -24,7 +24,7 @@ resource "azurerm_virtual_machine_extension" "CustomScriptExtension" {
 
   settings = <<SETTINGS
         {   
-        "commandToExecute": "powershell -command copy-item \"c:\\AzureData\\CustomData.bin\" \"c:\\AzureData\\CustomData.ps1\";\"c:\\AzureData\\CustomData.ps1\""
+        "commandToExecute": "powershell -command Set-ExecutionPolicy RemoteSigned -force; powershell -command copy-item \"c:\\AzureData\\CustomData.bin\" \"c:\\AzureData\\CustomData.ps1\";\"c:\\AzureData\\CustomData.ps1\""
         }
 SETTINGS
 }
