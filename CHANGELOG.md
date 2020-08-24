@@ -1,3 +1,15 @@
+## v1.1.1 (Aug 2020)
+
+FEATURES: 
+
+* Add support for custom_data execution on WIndows 10
+  
+IMPROVEMENTS:
+
+BUGS:
+
+* Fix issue with autoshutdown resource name
+
 ## v1.1.0 (Aug 2020)
 
 FEATURES: 
