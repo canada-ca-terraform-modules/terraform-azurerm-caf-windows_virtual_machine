@@ -150,6 +150,7 @@ resource azurerm_windows_virtual_machine VM {
       # This will prevent disastrous destruction in case someone plan a name and password change.
       admin_username,
       admin_password,
+      identity,
     ]
   }
 }
