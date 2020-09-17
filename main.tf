@@ -89,6 +89,7 @@ resource azurerm_network_interface_application_security_group_association asg {
 }
 
 resource azurerm_network_interface_security_group_association nic-nsg {
+  count                     = var.use_nic_nsg ? 1 : 0
   network_interface_id      = azurerm_network_interface.NIC.id
   network_security_group_id = azurerm_network_security_group.NSG[0].id
 }
