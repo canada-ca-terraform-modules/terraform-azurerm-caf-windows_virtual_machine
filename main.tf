@@ -152,6 +152,7 @@ resource azurerm_windows_virtual_machine VM {
       admin_username,
       admin_password,
       identity,
+      os_disk, # Prevent restored OS disks from causinf terraform to attempt to re-create the original os disk name and break the restores OS
     ]
   }
 }
