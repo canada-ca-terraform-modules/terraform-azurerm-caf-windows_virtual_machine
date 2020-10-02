@@ -46,7 +46,8 @@ data_disks = {
     lun          = 1
   }
 }
-/*
+*/
+  
 variable "data_disk_sizes_gb" {
   description = "List of data disk sizes in gigabytes required for the VM. EG.: If 3 data disks are required then data_disk_size_gb might look like [40,100,60] for disk 1 of 40 GB, disk 2 of 100 GB and disk 3 of 60 GB"
   default     = []
