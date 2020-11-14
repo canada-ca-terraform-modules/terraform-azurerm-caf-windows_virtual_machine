@@ -10,7 +10,7 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  TEST_SUBSCRIPTION_NAME: ${{secrets.TEST_SUBSCRIPTION_NAME}}
+  TEST_SUBSCRIPTION_NAME: ${{ secrets.TEST_SUBSCRIPTION_NAME }}
 
 jobs:
   module_test_deploy:
