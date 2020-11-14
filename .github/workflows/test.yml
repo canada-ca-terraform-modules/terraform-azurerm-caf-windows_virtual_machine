@@ -45,9 +45,11 @@ jobs:
         run: |
           cd /tf/caf/test
           terraform init
+          az account set --subscription "${{ env.TEST_SUBSCRIPTION_NAME }}"
           terraform apply -auto-approve
 
       - name: Destroy module test
+        if: ${{ always() }}
         run: |
           cd /tf/caf/test
           terraform destroy -auto-approve
