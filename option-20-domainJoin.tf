@@ -13,6 +13,7 @@ domainToJoin = {
 
 variable "domainToJoin" {
   description = "Object containing the parameters for the domain to join"
+  type        = any
   default     = null
 }
 
