@@ -7,15 +7,13 @@ provider "azurerm" {
 }
 
 locals {
-  template_name = "basicwindowvm"
+  template_name = "basicwindowsvm"
 }
 
 data "azurerm_client_config" "current" {}
 
-
 module "test-basicvm4" {
-  source = "../."
-  deploy            = true
+  source            = "../."
   env               = "SaTa"
   serverType        = "SWJ"
   userDefinedString = "Test"
@@ -23,10 +21,10 @@ module "test-basicvm4" {
   resource_group    = azurerm_resource_group.test-RG
   location          = azurerm_resource_group.test-RG.location
   subnet            = azurerm_subnet.subnet1
-  priority           = "Spot"
-  admin_username  = "azureadmin"
-  admin_password  = "Ca3425ghdfhb^w5"
-  vm_size            = "Standard_D2s_v3"
-  license_type    = "Windows_Server"
-  tags            = var.tags
+  priority          = "Spot"
+  admin_username    = "azureadmin"
+  admin_password    = "Ca3425ghdfhb^w5"
+  vm_size           = "Standard_D2s_v3"
+  license_type      = "Windows_Server"
+  tags              = var.tags
 }

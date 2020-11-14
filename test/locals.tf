@@ -4,6 +4,6 @@ locals {
     default     = "canadacentral"
   }
   tags = {
-      "test"     = "test"
+    "test" = "test"
   }
 }

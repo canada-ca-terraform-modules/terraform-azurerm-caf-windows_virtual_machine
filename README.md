@@ -1,4 +1,4 @@
-# Terraform azurerm_windows_virtual_machine
+# Terraform azurerm\_windows\_virtual\_machine
 
 ## Introduction
 
@@ -43,283 +43,74 @@ module "jumpbox" {
 }
 ```
 
-## Variables Values
+## Requirements
 
-| Name                                    | Type   | Required | Value                                                                                                                                                                                                                  |
-| --------------------------------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name                                    | string | yes      | Name of the vm                                                                                                                                                                                                         |
-| resource_group                          | object | yes      | Resourcegroup that will contain the VM resources                                                                                                                                                                       |
-| admin_username                          | string | yes      | Name of the VM admin account                                                                                                                                                                                           |
-| admin_password                          | string | yes      | Password of the VM admin account                                                                                                                                                                                       |
-| subnete                                 | object | yes      | subnet object to which the VM NIC will connect to                                                                                                                                                                      |
-| vm_size                                 | string | yes      | Specifies the desired size of the Virtual Machine. Eg: Standard_F4                                                                                                                                                     |
-| location                                | string | no       | Azure location for resources. Default: canadacentral                                                                                                                                                                   |
-| tags                                    | object | no       | Object containing a tag values - [tags pairs](#tag-object)                                                                                                                                                             |
-| data_disk_sizes_gb                      | list   | no       | List of data disk sizes in gigabytes required for the VM. - [data disk](#data-disk-list)                                                                                                                               |
-| os_managed_disk_type                    | string | no       | Specifies the type of OS Managed Disk which should be created. Possible values are Standard_LRS or Premium_LRS. Default: Standard_LRS                                                                                  |
-| data_managed_disk_type                  | string | no       | Specifies the type of Data Managed Disk which should be created. Possible values are Standard_LRS or Premium_LRS. Default: Standard_LRS                                                                                |
-| dnsServers                              | list   | no       | List of DNS servers IP addresses as string to use for this NIC, overrides the VNet-level dns server list - [dns servers](#dns-servers-list)                                                                            |
-| nic_enable_ip_forwarding                | bool   | no       | Enables IP Forwarding on the NIC. Default: false                                                                                                                                                                       |
-| nic_enable_accelerated_networkingg      | bool   | no       | Enables Azure Accelerated Networking using SR-IOV. Only certain VM instance sizes are supported. Default: false                                                                                                        |
-| nic_ip_configuration                    | object | no       | Defines how a private IP address is assigned. Options are Static or Dynamic. In case of Static also specifiy the desired privat IP address. Default: Dynamic - [ip configuration](#ip-configuration-object)            |
-| load_balancer_backend_address_pools_ids | List   | no       | List of Load Balancer Backend Address Pool IDs references to which this NIC belongs. Default: [[]]                                                                                                                     |
-| public_ip                               | bool   | no       | Does the VM require a public IP. true or false. Default: false                                                                                                                                                         |
-| storage_image_reference                 | object | no       | Specify the storage image used to create the VM. Default is 2016-Datacenter. - [storage image](#storage-image-reference-object)                                                                                        |
-| plan                                    | object | no       | Specify the plan used to create the VM. Default is null. - [plan](#plan-object)                                                                                                                                        |
-| storage_os_disk                         | object | no       | Storage OS Disk configuration. Default: ReadWrite from image.                                                                                                                                                          |
-| custom_data                             | string | no       | some custom ps1 code to execute. Eg: ${file("serverconfig/jumpbox-init.ps1")}                                                                                                                                          |
-| security_rules                          | list   | no       | [Security rules](#securityrules-object) to be applied to the VM nic through an NSG                                                                                                                                     |
-| domainToJoin                            | object | no       | Object containing the configuration related to the Active Directory Domain to join. - [domain to join](#domain-join-object)                                                                                            |
-| encryptDisk                             | object | no       | Configure if VM disks should be encrypted with Bitlocker. Default null - [encryptDisk](#encryptDisk-object)                                                                                                            |
-| dependancyAgent                         | bool   | no       | Installs the dependancy agent for service map integration. Default: false                                                                                                                                              |
-| AADLoginForWindows                      | bool   | no       | Installs the Azure AD login agent. Default: false                                                                                                                                                                      |
-| monitoringAgent                         | object | no       | Configure Azure monitoring on VM. Requires configured log analytics workspace. - [monitoring agent](#monitoring-agent-object)                                                                                          |
-| antimalware                             | object | no       | Configure Azure antimalware on VM. - [antimalware](#antimalware-object)                                                                                                                                                |
-| shutdownConfig                          | object | no       | Configure desired VM shutdown time - [shutdown config](#shutdown-config-object)                                                                                                                                        |
-| license_type                            | string | no       | Configure Azure Hybrid Benefit BYOL type                                                                                                                                                                               |
-| boot_diagnostic                         | bool   | no       | Should a boot be turned on or not. Default: false                                                                                                                                                                      |
-| availability_set_id                     | string | no       | Id of the availaiblity set to join.  Default is null.                                                                                                                                                                  |
-| priority                                | string | no       | Specifies what should happen when the Virtual Machine is evicted for price reasons when using a Spot instance. At this time the only supported value is Deallocate. Changing this forces a new resource to be created. |
-| deploy                                  | bool   | no       | Should resources in this module be deployed. This is usefull if you want to specify that a module should not be created without changing the terraform code across environments. Default: true                         |
+| Name | Version |
+|------|---------|
+| terraform | >= 0.12 |
+| azurerm | >= 1.32.0 |
+| template | >= 2.2.0 |
 
+## Providers
 
-### tag object
+| Name | Version |
+|------|---------|
+| azurerm | >= 1.32.0 |
 
-Example tag variable:
+## Inputs
 
-```hcl
-tags = {
-  "tag1name" = "somevalue"
-  "tag2name" = "someothervalue"
-  .
-  .
-  .
-  "tagXname" = "some other value"
-}
-```
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| admin\_username | Name of the VM admin account | `string` | n/a | yes |
+| env | 4 chars defining the environment name prefix for the VM. Example: ScSc | `string` | n/a | yes |
+| resource\_group | Resourcegroup object that will contain the VM resources | `any` | n/a | yes |
+| subnet | subnet object to which the VM NIC will connect to | `any` | n/a | yes |
+| userDefinedString | User defined portion of the server name. Up to 8 chars minus the postfix lenght | `string` | n/a | yes |
+| vm\_size | Specifies the size of the Virtual Machine. Eg: Standard\_F4 | `string` | n/a | yes |
+| AADLoginForWindows | Should the VM be include the dependancy agent | `bool` | `false` | no |
+| admin\_password | Password of the VM admin account | `string` | `null` | no |
+| antimalware | Should the VM run antimalware | <pre>object({<br>    RealtimeProtectionEnabled      = string<br>    ScheduledScanSettingsIsEnabled = string<br>    ScheduledScanSettingsDay       = string<br>    ScheduledScanSettingsTime      = string<br>    ScheduledScanSettingsScanType  = string<br>    ExclusionsExtensions           = string<br>    ExclusionsPaths                = string<br>    ExclusionsProcesses            = string<br>  })</pre> | `null` | no |
+| asg | ASG object to join the NIC to | `any` | `null` | no |
+| availability\_set\_id | Sets the id for the availability set to use for the VM | `string` | `null` | no |
+| boot\_diagnostic | Should a boot be turned on or not | `bool` | `false` | no |
+| custom\_data | Specifies custom data to supply to the machine. On Linux-based systems, this can be used as a cloud-init script. On other systems, this will be copied as a file on disk. Internally, Terraform will base64 encode this value before sending it to the API. The maximum length of the binary array is 65535 bytes. | `string` | `null` | no |
+| data\_disks | Map of object of disk sizes in gigabytes and lun number for each desired data disks. See variable.tf file for example | <pre>map(object({<br>    disk_size_gb = number<br>    lun          = number<br>  }))</pre> | `{}` | no |
+| data\_managed\_disk\_type | Specifies the type of Data Managed Disk which should be created. Possible values are Standard\_LRS or Premium\_LRS. | `string` | `"Standard_LRS"` | no |
+| dependancyAgent | Should the VM be include the dependancy agent | `bool` | `false` | no |
+| dnsServers | List of DNS servers IP addresses to use for this NIC, overrides the VNet-level server list. See variable.tf file for example | `list(string)` | `null` | no |
+| domainToJoin | Object containing the parameters for the domain to join | `any` | `null` | no |
+| domain\_join\_depends\_on | n/a | `any` | `null` | no |
+| encryptDisks | Should the VM disks be encrypted. See option-30-AzureDiskEncryption.tf file for example | <pre>object({<br>    KeyVaultResourceId = string<br>    KeyVaultURL        = string<br>  })</pre> | `null` | no |
+| eviction\_policy | Specifies what should happen when the Virtual Machine is evicted for price reasons when using a Spot instance. At this time the only supported value is Deallocate. Changing this forces a new resource to be created. | `string` | `"Deallocate"` | no |
+| license\_type | BYOL license type for those with Azure Hybrid Benefit | `string` | `null` | no |
+| load\_balancer\_backend\_address\_pools\_ids | List of Load Balancer Backend Address Pool IDs references to which this NIC belongs | `list(string)` | `[]` | no |
+| location | Location of VM | `string` | `"canadacentral"` | no |
+| monitoringAgent | Should the VM be monitored. If yes provide the appropriate object as described. See option-40-OmsAgentForLinux.tf file for example | <pre>object({<br>    workspace_id       = string<br>    primary_shared_key = string<br>  })</pre> | `null` | no |
+| nic\_depends\_on | List of resources that the VM NIC depend on | `any` | `null` | no |
+| nic\_enable\_accelerated\_networking | Enables Azure Accelerated Networking using SR-IOV. Only certain VM instance sizes are supported. | `bool` | `false` | no |
+| nic\_enable\_ip\_forwarding | Enables IP Forwarding on the NIC. | `bool` | `false` | no |
+| nic\_ip\_configuration | Defines how a private IP address is assigned. Options are Static or Dynamic. In case of Static also specifiy the desired privat IP address. See variable.tf file for example | <pre>object({<br>    private_ip_address            = list(string)<br>    private_ip_address_allocation = list(string)<br>  })</pre> | <pre>{<br>  "private_ip_address": [<br>    null<br>  ],<br>  "private_ip_address_allocation": [<br>    "Dynamic"<br>  ]<br>}</pre> | no |
+| os\_managed\_disk\_type | Specifies the type of OS Managed Disk which should be created. Possible values are Standard\_LRS or Premium\_LRS. | `string` | `"Standard_LRS"` | no |
+| plan | An optional plan block | <pre>object({<br>    name      = string<br>    product   = string<br>    publisher = string<br>  })</pre> | `null` | no |
+| postfix | (Optional) Desired postfix value for the name. Max 3 chars. | `string` | `""` | no |
+| priority | Specifies the priority of this Virtual Machine. Possible values are Regular and Spot. Defaults to Regular. Changing this forces a new resource to be created. | `string` | `"Regular"` | no |
+| public\_ip | Should the VM be assigned public IP(s). True or false. | `bool` | `false` | no |
+| security\_rules | Security rules to apply to the VM NIC | `list(map(string))` | <pre>[<br>  {<br>    "access": "Allow",<br>    "description": "Allow all in",<br>    "destination_address_prefix": "*",<br>    "destination_port_ranges": "*",<br>    "direction": "Inbound",<br>    "name": "AllowAllInbound",<br>    "priority": "100",<br>    "protocol": "*",<br>    "source_address_prefix": "*",<br>    "source_port_ranges": "*"<br>  },<br>  {<br>    "access": "Allow",<br>    "description": "Allow all out",<br>    "destination_address_prefix": "*",<br>    "destination_port_ranges": "*",<br>    "direction": "Outbound",<br>    "name": "AllowAllOutbound",<br>    "priority": "105",<br>    "protocol": "*",<br>    "source_address_prefix": "*",<br>    "source_port_ranges": "*"<br>  }<br>]</pre> | no |
+| serverType | 3 chars server type code for the VM. | `string` | `"SRV"` | no |
+| shutdownConfig | Should the VM shutdown at the time specified. See option-30-autoshutdown.tf file for example | <pre>object({<br>    autoShutdownStatus             = string<br>    autoShutdownTime               = string<br>    autoShutdownTimeZone           = string<br>    autoShutdownNotificationStatus = string<br>  })</pre> | `null` | no |
+| storage\_image\_reference | This block provisions the Virtual Machine from one of two sources: an Azure Platform Image (e.g. Ubuntu/Windows Server) or a Custom Image. Refer to https://www.terraform.io/docs/providers/azurerm/r/virtual_machine.html for more details. | <pre>object({<br>    publisher = string<br>    offer     = string<br>    sku       = string<br>    version   = string<br>  })</pre> | <pre>{<br>  "offer": "WindowsServer",<br>  "publisher": "MicrosoftWindowsServer",<br>  "sku": "2016-Datacenter",<br>  "version": "latest"<br>}</pre> | no |
+| storage\_os\_disk | This block describe the parameters for the OS disk. Refer to https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine#os_disk for more details. | <pre>object({<br>    caching       = string<br>    create_option = string<br>    disk_size_gb  = number<br>  })</pre> | <pre>{<br>  "caching": "ReadWrite",<br>  "create_option": "FromImage",<br>  "disk_size_gb": null<br>}</pre> | no |
+| tags | Tags that will be associated to VM resources | `map(string)` | <pre>{<br>  "exampleTag1": "SomeValue2"<br>}</pre> | no |
+| use\_nic\_nsg | Should a NIC NSG be used | `bool` | `true` | no |
+| vm\_depends\_on | List of resources that the VM depend on | `any` | `null` | no |
 
-### data disk list
+## Outputs
 
-Example data_disk_size_gb variable. The following example would deploy 3 data disks. One one of 40GB, one of 100GB and a last of 60GB:
+| Name | Description |
+|------|-------------|
+| id | The id of the VM |
+| name | The name of the VM |
+| nic | The VM nic object |
+| pip | The VM public ip if defined |
+| vm | The VM object |
 
-```hcl
-data_disk_size_gb = [40,100,60]
-```
-
-### dns servers list
-
-Example dnsServers variable. The following example would configure 2 dns servers:
-
-```hcl
-dnsServers = ["10.20.30.40","10.20.30.41]
-```
-
-### ip configuration object
-
-| Name                          | Type | Required | Value                                                                                                                                                           |
-| ----------------------------- | ---- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| private_ip_address            | list | yes      | List of Static IP desired for each IP allocation. Set each list items to null if using Dynamic allocation or to an static IP part of the subnet is using Static |
-| private_ip_address_allocation | list | yes      | List of IP allocation type for each ip configuration. Set each to either Dynamic or Static                                                                      |
-Default:
-
-```hcl
-nic_ip_configuration = {
-  private_ip_address            = [null]
-  private_ip_address_allocation = ["Dynamic"]
-}
-```
-
-Example variable for a NIC with 2 staticly assigned IP and one dynamic:
-
-```hcl
-nic_ip_configuration = {
-  private_ip_address            = ["10.20.30.42","10.20.40.43",null]
-  private_ip_address_allocation = ["Static","Static","Dynamic"]
-}
-```
-
-### #storage image reference object
-
-| Name      | Type       | Required           | Value                                                                                              |
-| --------- | ---------- | ------------------ | -------------------------------------------------------------------------------------------------- |
-| publisher | string     | yes                | The image publisher.                                                                               |
-| offer     | string     | yes                | Specifies the offer of the platform image or marketplace image used to create the virtual machine. |
-| sku       | string     | yes                | The image SKU.                                                                                     |
-| version   | string yes | The image version. |
-
-Example variable:
-
-```hcl
-storage_image_reference = {
-  publisher = "MicrosoftWindowsServer"
-  offer     = "WindowsServer"
-  sku       = "2016-Datacenter"
-  version   = "latest"
-}
-```
-
-### plan object
-
-| Name      | Type   | Required | Value               |
-| --------- | ------ | -------- | ------------------- |
-| name      | string | yes      | The plan nome.      |
-| publisher | string | yes      | The publisher name. |
-| product   | string | yes      | The product name.   |
-
-Example variable:
-
-```hcl
-plan = {
-    name      = "fortinet-fortimanager"
-    publisher = "fortinet"
-    product   = "fortinet-fortimanager"
-}
-```
-
-### securityrules object
-
-| Name                       | Type   | Required | Value                                                                                                                                                                                                              |
-| -------------------------- | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| name                       | string | yes      | The name of the security rule.                                                                                                                                                                                     |
-| description                | string | yes      | A description for this rule. Restricted to 140 characters.                                                                                                                                                         |
-| access                     | string | yes      | Specifies whether network traffic is allowed or denied. Possible values are Allow and Deny.                                                                                                                        |
-| priority                   | string | yes      | Specifies the priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule. |
-| protocol                   | string | yes      | Network protocol this rule applies to. Can be Tcp, Udp or * to match both.                                                                                                                                         |
-| direction                  | string | yes      | The direction specifies if rule will be evaluated on incoming or outgoing traffic. Possible values are Inbound and Outbound.                                                                                       |
-| source_port_ranges         | string | yes      | List of source ports or port ranges.                                                                                                                                                                               |
-| source_address_prefix      | string | yes      | CIDR or source IP range or * to match any IP. Tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used.                                                                                  |
-| destination_port_ranges    | string | yes      | Destination Port or Range. Integer or range between 0 and 65535 or * to match any.                                                                                                                                 |
-| destination_address_prefix | string | yes      | CIDR or destination IP range or * to match any IP. Tags such as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used.                                                                             |
-
-Example variable:
-
-```hcl
-security_rules = [
-    {
-      name                       = "AllowAllInbound"
-      description                = "Allow all in"
-      access                     = "Allow"
-      priority                   = "100"
-      protocol                   = "*"
-      direction                  = "Inbound"
-      source_port_ranges         = "*"
-      source_address_prefix      = "*"
-      destination_port_ranges    = "*"
-      destination_address_prefix = "*"
-    },
-    {
-      name                       = "AllowAllOutbound"
-      description                = "Allow all out"
-      access                     = "Allow"
-      priority                   = "105"
-      protocol                   = "*"
-      direction                  = "Outbound"
-      source_port_ranges         = "*"
-      source_address_prefix      = "*"
-      destination_port_ranges    = "*"
-      destination_address_prefix = "*"
-    }
-  ]
-```
-
-### domain join object
-
-| Name              | Type    | Required | Value                                                      |
-| ----------------- | ------- | -------- | ---------------------------------------------------------- |
-| domainToJoin      | string  | Yes      | Name of the domain to join. Eg. test.gc.ca.local           |
-| domainUsername    | string  | Yes      | Name of domain admin account to use to join the domain     |
-| domainPassword    | string  | Yes      | Password of domain admin account to use to join the domain |
-| domainJoinOptions | integer | Yes      | Domain join option. Recommended value: 3                   |
-| ouPath            | string  | Yes      | Path for the domain ou. Leave empty in most cases. Eg: ""  |
-
-Example variable:
-
-```hcl
-domainToJoin = {
-  domainName           = "test.com"
-  domainUsername       = "azureadmin"
-  domainPassword       = "somePassword"
-  domainJoinOptions    = 3
-  ouPath               = ""
-}
-```
-
-### monitoring agent object
-
-Example variable:
-
-```hcl
-monitoringAgent = azurerm_log_analytics_workspace.logAnalyticsWS
-```
-
-### antimalware object
-
-| Name                         | Type   | Required | Value                                                                                                                       |
-| ---------------------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
-| RealtimeProtectionEnabled    | string | Yes      | Indicates whether or not real time protection is enabled - true or false                                                    |
-| ScheduledScanSettingsEnabled | string | Yes      | Indicates whether or not custom scheduled scan settings are enabled - true or false                                         |
-| ScheduledScanSettingsDay     | string | Yes      | Day of the week for scheduled scan (1-Sunday, 2-Monday, ..., 7-Saturday)                                                    |
-| ScheduledScanSettingsTime    | string | Yes      | When to perform the scheduled scan, measured in minutes from midnight (0-1440). For example: 0 = 12AM, 60 = 1AM, 120 = 2AM. |
-| ScheduledScanSettingsType    | string | Yes      | Indicates whether scheduled scan setting type is set to Quick or Full - Quick or Full                                       |
-| ExclusionExtensions          | string | Yes      | Semicolon delimited list of file extensions to exclude from scanning. Eg: .txt; .ps1                                        |
-| ExclusionPaths               | string | Yes      | Semicolon delimited list of file paths or locations to exclude from scanning. Eg: c:\\Users                                 |
-| ExclusionProcesses           | string | Yes      | Semicolon delimited list of process names to exclude from scanning. Eg: w3wp.exe;explorer.exe                               |
-
-Example variable:
-
-```hcl
-antimalware" {
-  RealtimeProtectionEnabled      = "true"
-  ScheduledScanSettingsIsEnabled = "false"
-  ScheduledScanSettingsDay       = "7"
-  ScheduledScanSettingsTime      = "120"
-  ScheduledScanSettingsScanType  = "Quick"
-  ExclusionsExtensions           = ""
-  ExclusionsPaths                = ""
-  ExclusionsProcesses            = ""
-}
-```
-
-### encryptDisk object
-
-| Name               | Type   | Required | Value                                                           |
-| ------------------ | ------ | -------- | --------------------------------------------------------------- |
-| KeyVaultResourceId | string | Yes      | ID of the keyvault resource that will store the encryption keys |
-| KeyVaultURL        | string | Yes      | URL of the keyvault that will store the encryption keys         |
-
-Example variable:
-
-```hcl
-encryptDisks = {
-  KeyVaultResourceId = "${azurerm_key_vault.test-keyvault.id}"
-  KeyVaultURL        = "${azurerm_key_vault.test-keyvault.vault_uri}"
-}
-```
-
-### shutdown config object
-
-| Name                           | Type   | Required | Value                                                                                          |
-| ------------------------------ | ------ | -------- | ---------------------------------------------------------------------------------------------- |
-| autoShutdownStatus             | string | Yes      | Name of the VM                                                                                 |
-| autoShutdownTime               | string | Yes      | The time of day the schedule will occur. Eg: 17:00                                             |
-| autoShutdownTimeZone           | string | Yes      | Timezone ID. Eg: Eastern Standard Time                                                         |
-| autoShutdownNotificationStatus | string | Yes      | If notifications are enabled for this schedule (i.e. Enabled, Disabled). - Enabled or Disabled |
-
-Example variable:
-
-```hcl
-shutdownConfig = {
-  autoShutdownStatus = "Enabled"
-  autoShutdownTime = "17:00"
-  autoShutdownTimeZone = "Eastern Standard Time"
-  autoShutdownNotificationStatus = "Disabled"
-}
-```
-
-## History
-
-| Date     | Release | Change                                              |
-| -------- | ------- | --------------------------------------------------- |
-| 20200728 | v1.0.4  | Fix issue with LB                                   |
-| 20200728 | v1.0.3  | Fix issue with outputs failing when deploy is false |
-| 20200625 | v1.0.0  | 1st commit                                          |
