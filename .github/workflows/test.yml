@@ -10,7 +10,7 @@ env:
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-  TEST_SUBSCRIPTION_NAME: ${{ secrets.TEST_SUBSCRIPTION_NAME }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
 jobs:
   module_test_deploy:
@@ -35,7 +35,7 @@ jobs:
       - name: Login to azure
         run: |
           az login --service-principal -u '${{ env.ARM_CLIENT_ID }}' -p '${{ env.ARM_CLIENT_SECRET }}' --tenant '${{ env.ARM_TENANT_ID }}'
-          az account set --subscription "${{ env.TEST_SUBSCRIPTION_NAME }}"
+          az account set --subscription "${{ env.ARM_SUBSCRIPTION_ID }}"
 
       - name: Terraform version
         run: |
@@ -45,7 +45,7 @@ jobs:
         run: |
           cd /tf/caf/test
           terraform init
-          az account set --subscription "${{ env.TEST_SUBSCRIPTION_NAME }}"
+          az account set --subscription "${{ env.ARM_SUBSCRIPTION_ID }}"
           terraform apply -auto-approve
 
       - name: Destroy module test
