@@ -1,16 +1,16 @@
 output "name" {
   description = "The name of the VM"
-  value       = azurerm_linux_virtual_machine.VM.name
+  value       = azurerm_windows_virtual_machine.VM.name
 }
 
 output "id" {
   description = "The id of the VM"
-  value       = azurerm_linux_virtual_machine.VM.id
+  value       = azurerm_windows_virtual_machine.VM.id
 }
 
 output "vm" {
   description = "The VM object"
-  value       = azurerm_linux_virtual_machine.VM
+  value       = azurerm_windows_virtual_machine.VM
 }
 
 output "pip" {
