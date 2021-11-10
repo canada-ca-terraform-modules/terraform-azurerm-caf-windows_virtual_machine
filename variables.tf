@@ -265,3 +265,22 @@ variable "eviction_policy" {
   type        = string
   default     = "Deallocate"
 }
+
+# Backup related vars
+variable "backup" {
+  description = "Specifies the id of the backup policy to use."
+  type        = bool
+  default     = false
+}
+
+variable "backup_policy_id" {
+  description = "Specifies the id of the backup policy to use."
+  type        = string
+  default     = null
+}
+
+variable "recovery_vault" {
+  description = "The Recovery Services Vault object to use. Changing this forces a new resource to be created."
+  type        = any
+  default     = null
+}
