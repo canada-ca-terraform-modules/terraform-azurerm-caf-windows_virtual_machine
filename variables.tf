@@ -197,7 +197,7 @@ variable "vm_size" {
 }
 
 variable "storage_image_reference" {
-  description = "This block provisions the Virtual Machine from one of two sources: an Azure Platform Image (e.g. Ubuntu/Windows Server) or a Custom Image. Refer to https://www.terraform.io/docs/providers/azurerm/r/virtual_machine.html for more details."
+  description = "(Optional) This block provisions the Virtual Machine from one of two sources: an Azure Platform Image (e.g. Ubuntu/Windows Server) or a Custom Image. Refer to https://www.terraform.io/docs/providers/azurerm/r/virtual_machine.html for more details."
   type = object({
     publisher = string
     offer     = string
@@ -219,6 +219,12 @@ variable "plan" {
     product   = string
     publisher = string
   })
+  default = null
+}
+
+variable "source_image_id" {
+  description = "(Optional) The ID of the Image which this Virtual Machine should be created from. Changing this forces a new resource to be created."
+  type = string
   default = null
 }
 
