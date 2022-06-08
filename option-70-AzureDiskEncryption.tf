@@ -28,7 +28,7 @@ resource "azurerm_virtual_machine_extension" "AzureDiskEncryption" {
     azurerm_virtual_machine_extension.DAAgentForWindows,
     azurerm_virtual_machine_extension.MicrosoftMonitoringAgent,
     azurerm_virtual_machine_extension.IaaSAntimalware,
-    azurerm_template_deployment.autoshutdown,
+    azurerm_resource_group_template_deployment.autoshutdown,
     azurerm_virtual_machine_data_disk_attachment.data_disks
   ]
   virtual_machine_id         = azurerm_windows_virtual_machine.VM.id
