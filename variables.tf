@@ -224,8 +224,8 @@ variable "plan" {
 
 variable "source_image_id" {
   description = "(Optional) The ID of the Image which this Virtual Machine should be created from. Changing this forces a new resource to be created."
-  type = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "storage_os_disk" {
@@ -245,6 +245,12 @@ variable "storage_os_disk" {
 variable "license_type" {
   description = "BYOL license type for those with Azure Hybrid Benefit"
   type        = string
+  default     = null
+}
+
+variable "zone" {
+  description = "The Zone in which this Virtual Machine should be created. Changing this forces a new resource to be created."
+  type        = any
   default     = null
 }
 

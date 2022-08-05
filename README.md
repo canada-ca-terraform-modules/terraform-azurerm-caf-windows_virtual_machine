@@ -135,6 +135,7 @@ No modules.
 | <a name="input_userDefinedString"></a> [userDefinedString](#input\_userDefinedString) | User defined portion of the server name. Up to 8 chars minus the postfix lenght | `string` | n/a | yes |
 | <a name="input_vm_depends_on"></a> [vm\_depends\_on](#input\_vm\_depends\_on) | List of resources that the VM depend on | `any` | `null` | no |
 | <a name="input_vm_size"></a> [vm\_size](#input\_vm\_size) | Specifies the size of the Virtual Machine. Eg: Standard\_F4 | `string` | n/a | yes |
+| <a name="input_zone"></a> [zone](#input\_zone) | The Zone in which this Virtual Machine should be created. Changing this forces a new resource to be created. | `any` | `null` | no |
 
 ## Outputs
 
