@@ -266,6 +266,12 @@ variable "boot_diagnostic" {
   default     = false
 }
 
+variable "ultra_ssd_enabled" {
+  description = "Should the capacity to enable Data Disks of the UltraSSD_LRS storage account type be supported on this Virtual Machine?"
+  type        = bool
+  default     = false
+}
+
 variable "priority" {
   description = "Specifies the priority of this Virtual Machine. Possible values are Regular and Spot. Defaults to Regular. Changing this forces a new resource to be created."
   type        = string

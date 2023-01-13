@@ -142,6 +142,12 @@ resource "azurerm_windows_virtual_machine" "VM" {
     disk_size_gb         = var.storage_os_disk.disk_size_gb
   }
   zone = var.zone
+  dynamic "additional_capabilities" {
+    for_each = var.ultra_ssd_enabled ? ["1"] : []
+    content {
+      ultra_ssd_enabled = true
+    }
+  }
   dynamic "boot_diagnostics" {
     for_each = local.boot_diagnostic
     content {
