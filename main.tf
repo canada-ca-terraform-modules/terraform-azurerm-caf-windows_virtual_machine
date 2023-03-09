@@ -116,6 +116,8 @@ resource "azurerm_windows_virtual_machine" "VM" {
   network_interface_ids = [azurerm_network_interface.NIC.id]
   availability_set_id   = var.availability_set_id
   license_type          = var.license_type == null ? null : var.license_type
+  patch_assessment_mode = var.patch_assessment_mode
+  patch_mode            = var.patch_mode
   source_image_id       = var.source_image_id
   dynamic "source_image_reference" {
     for_each = var.source_image_id == null ? ["1"] : [] # If there is a source image id provided then don't use source_image_reference
