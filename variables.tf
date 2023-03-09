@@ -302,3 +302,15 @@ variable "recovery_vault" {
   type        = any
   default     = null
 }
+
+variable "patch_assessment_mode" {
+  description = "(Optional) Specifies the mode of VM Guest Patching for the Virtual Machine. Possible values are AutomaticByPlatform or ImageDefault. Defaults to ImageDefault."
+  type        = string
+  default     = null
+}
+
+variable "patch_mode" {
+  description = "(Optional) Specifies the mode of in-guest patching to this Windows Virtual Machine. Possible values are Manual, AutomaticByOS and AutomaticByPlatform. Defaults to AutomaticByOS."
+  type        = string
+  default     = null
+}
