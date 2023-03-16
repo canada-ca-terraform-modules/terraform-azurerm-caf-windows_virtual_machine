@@ -102,23 +102,24 @@ resource "azurerm_network_interface_security_group_association" "nic-nsg" {
 }
 
 resource "azurerm_windows_virtual_machine" "VM" {
-  name                  = local.vm-name
-  depends_on            = [var.vm_depends_on]
-  location              = var.location
-  resource_group_name   = var.resource_group.name
-  admin_username        = var.admin_username
-  admin_password        = var.admin_password
-  computer_name         = local.vm-name
-  custom_data           = var.custom_data
-  size                  = var.vm_size
-  priority              = var.priority
-  eviction_policy       = local.eviction_policy
-  network_interface_ids = [azurerm_network_interface.NIC.id]
-  availability_set_id   = var.availability_set_id
-  license_type          = var.license_type == null ? null : var.license_type
-  patch_assessment_mode = var.patch_assessment_mode
-  patch_mode            = var.patch_mode
-  source_image_id       = var.source_image_id
+  name                     = local.vm-name
+  depends_on               = [var.vm_depends_on]
+  location                 = var.location
+  resource_group_name      = var.resource_group.name
+  admin_username           = var.admin_username
+  admin_password           = var.admin_password
+  computer_name            = local.vm-name
+  custom_data              = var.custom_data
+  size                     = var.vm_size
+  priority                 = var.priority
+  eviction_policy          = local.eviction_policy
+  network_interface_ids    = [azurerm_network_interface.NIC.id]
+  availability_set_id      = var.availability_set_id
+  license_type             = var.license_type == null ? null : var.license_type
+  enable_automatic_updates = var.enable_automatic_updates
+  patch_assessment_mode    = var.patch_assessment_mode
+  patch_mode               = var.patch_mode
+  source_image_id          = var.source_image_id
   dynamic "source_image_reference" {
     for_each = var.source_image_id == null ? ["1"] : [] # If there is a source image id provided then don't use source_image_reference
     content {

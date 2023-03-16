@@ -303,6 +303,11 @@ variable "recovery_vault" {
   default     = null
 }
 
+variable "enable_automatic_updates" {
+  description = "(Optional) Specifies if Automatic Updates are Enabled for the Windows Virtual Machine. Changing this forces a new resource to be created. Defaults to true."
+  type        = string
+  default     = true
+}
 variable "patch_assessment_mode" {
   description = "(Optional) Specifies the mode of VM Guest Patching for the Virtual Machine. Possible values are AutomaticByPlatform or ImageDefault. Defaults to ImageDefault."
   type        = string
