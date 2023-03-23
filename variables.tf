@@ -314,3 +314,9 @@ variable "patch_mode" {
   type        = string
   default     = null
 }
+
+variable "enable_automatic_updates" {
+  description = "(Optional) Specifies if Automatic Updates are Enabled for the Windows Virtual Machine. Changing this forces a new resource to be created."
+  type        = bool
+  default     = true
+}
