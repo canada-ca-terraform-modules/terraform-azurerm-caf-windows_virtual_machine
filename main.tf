@@ -74,7 +74,7 @@ resource "azurerm_network_interface" "NIC" {
       subnet_id                     = var.subnet.id
       private_ip_address            = var.nic_ip_configuration.private_ip_address[ip_configuration.key]
       private_ip_address_allocation = var.nic_ip_configuration.private_ip_address_allocation[ip_configuration.key]
-      public_ip_address_id          = var.public_ip ? azurerm_public_ip.VM-EXT-PubIP[ip_configuration.key].id : ""
+      public_ip_address_id          = var.public_ip ? azurerm_public_ip.VM-EXT-PubIP[ip_configuration.key].id : null
       primary                       = ip_configuration.key == 0 ? true : false
     }
   }
@@ -174,6 +174,9 @@ resource "azurerm_windows_virtual_machine" "VM" {
       identity,
       os_disk, # Prevent restored OS disks from causinf terraform to attempt to re-create the original os disk name and break the restores OS
       custom_data,
+      create_option,
+      source_resource_id,
+      source_image_reference
     ]
   }
 }
