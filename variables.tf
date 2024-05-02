@@ -35,6 +35,12 @@ variable "postfix" {
   default     = ""
 }
 
+variable "computer_name" {
+  description = "(Optional) Desired OS hostname/NetBIOS for the VM"
+  type = string
+  default = null
+}
+
 variable "data_disks" {
   description = "Map of object of disk sizes in gigabytes and lun number for each desired data disks. See variable.tf file for example"
   type = map(object({
