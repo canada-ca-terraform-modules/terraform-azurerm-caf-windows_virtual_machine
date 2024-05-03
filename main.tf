@@ -108,7 +108,7 @@ resource "azurerm_windows_virtual_machine" "VM" {
   resource_group_name   = var.resource_group.name
   admin_username        = var.admin_username
   admin_password        = var.admin_password
-  computer_name         = local.vm-name
+  computer_name         = var.computer_name
   custom_data           = var.custom_data
   size                  = var.vm_size
   priority              = var.priority
@@ -163,7 +163,7 @@ resource "azurerm_windows_virtual_machine" "VM" {
       type = "SystemAssigned"
     }
   }
-  tags = local.tags
+  tags = merge(local.tags, [var.computer_name != null ? {"OsHostname" = var.computer_name} : null]...)
   lifecycle {
     ignore_changes = [
       # Ignore changes to username and password because it will require destroying and
