@@ -19,4 +19,6 @@ resource "azurerm_virtual_machine_extension" "DAAgentForWindows" {
     azurerm_virtual_machine_extension.AADLoginForWindows,
     azurerm_virtual_machine_data_disk_attachment.data_disks
   ]
+
+  tags = var.tags
 }

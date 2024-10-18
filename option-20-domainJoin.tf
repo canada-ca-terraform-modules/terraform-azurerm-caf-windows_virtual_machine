@@ -58,4 +58,6 @@ resource "azurerm_virtual_machine_extension" "DomainJoinExtension" {
           "Password": "${var.domainToJoin.domainPassword}"
         }
   PROTECTED_SETTINGS
+
+  tags = var.tags
 }

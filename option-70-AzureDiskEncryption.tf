@@ -47,4 +47,6 @@ resource "azurerm_virtual_machine_extension" "AzureDiskEncryption" {
           "ResizeOSDisk": false
         }
   SETTINGS
+
+  tags = var.tags
 }

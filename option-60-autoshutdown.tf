@@ -95,4 +95,6 @@ DEPLOY
   })
 
   deployment_mode = "Incremental"
+
+  tags = var.tags
 }
