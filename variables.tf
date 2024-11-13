@@ -86,13 +86,13 @@ variable "use_nic_nsg" {
   default     = true
 }
 
-variable "nic_enable_ip_forwarding" {
+variable "ip_forwarding_enabled" {
   description = "Enables IP Forwarding on the NIC."
   type        = bool
   default     = false
 }
 
-variable "nic_enable_accelerated_networking" {
+variable "accelerated_networking_enabled" {
   description = "Enables Azure Accelerated Networking using SR-IOV. Only certain VM instance sizes are supported."
   type        = bool
   default     = false

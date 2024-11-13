@@ -24,6 +24,7 @@ Optional (depending on options configured):
 
 * log analytics workspace
 
+<!-- BEGIN_TF_DOCS -->
 ## Usage
 
 ```terraform
@@ -149,3 +150,4 @@ No modules.
 | <a name="output_nic"></a> [nic](#output\_nic) | The VM nic object |
 | <a name="output_pip"></a> [pip](#output\_pip) | The VM public ip if defined |
 | <a name="output_vm"></a> [vm](#output\_vm) | The VM object |
+<!-- END_TF_DOCS -->
