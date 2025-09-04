@@ -120,6 +120,7 @@ resource "azurerm_windows_virtual_machine" "VM" {
   patch_mode            = var.patch_mode
   source_image_id       = var.source_image_id
   enable_automatic_updates = var.enable_automatic_updates
+  bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
   dynamic "source_image_reference" {
     for_each = var.source_image_id == null ? ["1"] : [] # If there is a source image id provided then don't use source_image_reference
     content {
