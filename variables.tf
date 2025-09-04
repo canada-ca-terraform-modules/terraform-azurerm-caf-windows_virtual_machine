@@ -326,3 +326,9 @@ variable "enable_automatic_updates" {
   type        = bool
   default     = true
 }
+
+variable "bypass_platform_safety_checks_on_user_schedule_enabled" {
+  description = "(Optional) Specifies whether to skip platform scheduled patching when a user schedule is associated with the VM."
+  type        = bool
+  default     = true
+}
