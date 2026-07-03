@@ -175,7 +175,9 @@ resource "azurerm_windows_virtual_machine" "VM" {
       identity,
       os_disk, # Prevent restored OS disks from causinf terraform to attempt to re-create the original os disk name and break the restores OS
       custom_data,
-      gallery_application
+      gallery_application,
+      source_image_reference, # VMs restored from OS disk snapshot (createOption=Attach) have no source_image_reference in Azure — module always emits this block, causing forced replacement on every plan.
+      provision_vm_agent      # VM may have been deployed with provision_vm_agent=false outside TF; changing to true forces replacement.
     ]
   }
 }
