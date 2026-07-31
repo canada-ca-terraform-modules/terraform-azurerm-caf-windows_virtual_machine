@@ -4,7 +4,7 @@
 
 This module deploys a simple [virtual machine resource](https://docs.microsoft.com/en-us/azure/templates/microsoft.compute/2019-03-01/virtualmachines) with an NSG, 1 NIC, a simple OS Disk. Multiple optional configuration can be applied. See [variables values](#Variables-Values) for details.
 
-This module is compatible with azurerm v2.x
+This module is compatible with azurerm v5.x
 
 ## Security Controls
 
@@ -28,17 +28,17 @@ Optional (depending on options configured):
 
 ```terraform
 module "jumpbox" {
-  source = "github.com/canada-ca-terraform-modules/azurerm_windows_virtual_machine?ref=20200622.1"
+  source = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-windows_virtual_machine?ref=v3.0.17"
 
-  name                              = "jumpbox"
-  resource_group                    = "some-RG-Name"
-  admin_username                    = "someusername"
-  admin_password                    = "${azurerm_key_vault_secret.thevmpassword.name}"
-  nic_subnetName                    = "some-subnet-name"
-  nic_vnetName                      = "some-vnet-name"
-  nic_resource_group_name           = "some-vnet-resourcegroup-name"
-  vm_size                           = "Standard_D2s_v3"
-  availability_set_id               = "some-availability-set-id"
-  priority                          = "Spot"
+  env                 = "ScSc"
+  userDefinedString   = "jumpbox"
+  resource_group      = azurerm_resource_group.example
+  location            = azurerm_resource_group.example.location
+  subnet              = azurerm_subnet.example
+  admin_username      = "someusername"
+  admin_password      = azurerm_key_vault_secret.thevmpassword.value
+  vm_size             = "Standard_D2s_v3"
+  availability_set_id = "some-availability-set-id"
+  priority            = "Spot"
 }
 ```

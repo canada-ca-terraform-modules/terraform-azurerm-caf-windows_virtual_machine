@@ -9,7 +9,7 @@ variable "tags" {
   type        = map(string)
   default = {
     "exampleTag1" = "SomeValue1"
-    "exampleTag1" = "SomeValue2"
+    "exampleTag2" = "SomeValue2"
   }
 }
 
@@ -37,8 +37,8 @@ variable "postfix" {
 
 variable "computer_name" {
   description = "(Optional) Desired OS hostname/NetBIOS for the VM"
-  type = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "data_disks" {
@@ -322,7 +322,7 @@ variable "patch_mode" {
 }
 
 variable "enable_automatic_updates" {
-  description = "(Optional) Specifies if Automatic Updates are Enabled for the Windows Virtual Machine. Changing this forces a new resource to be created."
+  description = "(Optional) Specifies if Automatic Updates are Enabled for the Windows Virtual Machine (maps to the azurerm_windows_virtual_machine automatic_updates_enabled argument). Changing this forces a new resource to be created."
   type        = bool
   default     = true
 }
