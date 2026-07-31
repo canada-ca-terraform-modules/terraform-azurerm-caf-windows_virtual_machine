@@ -1,10 +1,3 @@
-terraform {
-  required_version = ">= 0.12"
-  required_providers {
-    azurerm  = ">= 1.32.0"
-    template = ">= 2.2.0"
-  }
-}
 resource "azurerm_network_security_group" "NSG" {
   count               = var.use_nic_nsg ? 1 : 0
   name                = "${local.vm-name}-nsg"
@@ -60,13 +53,13 @@ resource "azurerm_public_ip" "VM-EXT-PubIP" {
 }
 
 resource "azurerm_network_interface" "NIC" {
-  name                          = "${local.vm-name}-nic1"
-  depends_on                    = [var.nic_depends_on]
-  location                      = var.location
-  resource_group_name           = var.resource_group.name
-  ip_forwarding_enabled         = var.ip_forwarding_enabled
+  name                           = "${local.vm-name}-nic1"
+  depends_on                     = [var.nic_depends_on]
+  location                       = var.location
+  resource_group_name            = var.resource_group.name
+  ip_forwarding_enabled          = var.ip_forwarding_enabled
   accelerated_networking_enabled = var.accelerated_networking_enabled
-  dns_servers                   = var.dnsServers
+  dns_servers                    = var.dnsServers
   dynamic "ip_configuration" {
     for_each = var.nic_ip_configuration.private_ip_address_allocation
     content {
@@ -102,24 +95,24 @@ resource "azurerm_network_interface_security_group_association" "nic-nsg" {
 }
 
 resource "azurerm_windows_virtual_machine" "VM" {
-  name                  = local.vm-name
-  depends_on            = [var.vm_depends_on]
-  location              = var.location
-  resource_group_name   = var.resource_group.name
-  admin_username        = var.admin_username
-  admin_password        = var.admin_password
-  computer_name         = var.computer_name
-  custom_data           = var.custom_data
-  size                  = var.vm_size
-  priority              = var.priority
-  eviction_policy       = local.eviction_policy
-  network_interface_ids = [azurerm_network_interface.NIC.id]
-  availability_set_id   = var.availability_set_id
-  license_type          = var.license_type == null ? null : var.license_type
-  patch_assessment_mode = var.patch_assessment_mode
-  patch_mode            = var.patch_mode
-  source_image_id       = var.source_image_id
-  enable_automatic_updates = var.enable_automatic_updates
+  name                                                   = local.vm-name
+  depends_on                                             = [var.vm_depends_on]
+  location                                               = var.location
+  resource_group_name                                    = var.resource_group.name
+  admin_username                                         = var.admin_username
+  admin_password                                         = var.admin_password
+  computer_name                                          = var.computer_name
+  custom_data                                            = var.custom_data
+  size                                                   = var.vm_size
+  priority                                               = var.priority
+  eviction_policy                                        = local.eviction_policy
+  network_interface_ids                                  = [azurerm_network_interface.NIC.id]
+  availability_set_id                                    = var.availability_set_id
+  license_type                                           = var.license_type == null ? null : var.license_type
+  patch_assessment_mode                                  = var.patch_assessment_mode
+  patch_mode                                             = var.patch_mode
+  source_image_id                                        = var.source_image_id
+  automatic_updates_enabled                              = var.enable_automatic_updates # azurerm >= 5.0: enable_automatic_updates arg renamed automatic_updates_enabled; module variable name kept for backward compatibility
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
   dynamic "source_image_reference" {
     for_each = var.source_image_id == null ? ["1"] : [] # If there is a source image id provided then don't use source_image_reference
@@ -164,7 +157,7 @@ resource "azurerm_windows_virtual_machine" "VM" {
       type = "SystemAssigned"
     }
   }
-  tags = merge(local.tags, [var.computer_name != null ? {"OsHostname" = var.computer_name} : null]...)
+  tags = merge(local.tags, [var.computer_name != null ? { "OsHostname" = var.computer_name } : null]...)
   lifecycle {
     ignore_changes = [
       # Ignore changes to username and password because it will require destroying and
@@ -214,7 +207,7 @@ resource "azurerm_virtual_machine_data_disk_attachment" "data_disks" {
   caching            = try(each.value.caching, "ReadWrite")
   lifecycle {
     ignore_changes = [
-      managed_disk_id, # Prevent restored data disks from causing terraform to attempt to re-create the original os disk name and break the restores OS
+      managed_disk_id,    # Prevent restored data disks from causing terraform to attempt to re-create the original os disk name and break the restores OS
       virtual_machine_id, # Prevent restored data disks from causing terraform to attempt to re-create the original os disk name and break the restores OS
     ]
   }
