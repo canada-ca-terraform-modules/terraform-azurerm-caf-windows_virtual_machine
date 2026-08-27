@@ -1,3 +1,4 @@
+# Wires the live-test.yml CI workflow (added alongside this comment) to this harness.
 terraform {
   required_version = ">= 1.9"
   required_providers {
