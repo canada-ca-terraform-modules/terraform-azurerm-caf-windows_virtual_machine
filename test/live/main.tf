@@ -47,6 +47,9 @@ module "windows_virtual_machine" {
   admin_password = local.admin_password # random_password, never committed
   vm_size        = var.vm_size
 
+  storage_image_reference = var.storage_image_reference
+  disk_controller_type    = var.disk_controller_type
+
   # No public IPs allowed in this environment.
   public_ip = false
 

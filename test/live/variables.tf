@@ -34,3 +34,25 @@ variable "vm_size" {
   type        = string
   default     = "Standard_D2as_v6"
 }
+
+variable "storage_image_reference" {
+  description = "OS image reference for the VM. Overridden in the tracked fixture to a Generation 2 SKU - the Dav6 VM size family required in this sandbox can only boot Generation 2 images."
+  type = object({
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
+  })
+  default = {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2016-Datacenter"
+    version   = "latest"
+  }
+}
+
+variable "disk_controller_type" {
+  description = "Disk controller type for the VM. Overridden to NVMe in the tracked fixture - the Dav6 VM size family required in this sandbox only supports the NVMe disk controller type (rejects the module/provider's SCSI default at create time)."
+  type        = string
+  default     = null
+}
