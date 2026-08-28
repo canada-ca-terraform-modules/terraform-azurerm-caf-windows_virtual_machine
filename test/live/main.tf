@@ -1,4 +1,6 @@
-# Wires the live-test.yml CI workflow (added alongside this comment) to this harness.
+# Wires the live-test.yml CI workflow to this harness. Re-triggered after the
+# disk_controller_type/NVMe/Gen2 fix landed on master (see PR #16) to
+# validate the live-test run against the corrected baseline.
 terraform {
   required_version = ">= 1.9"
   required_providers {
