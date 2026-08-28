@@ -332,3 +332,93 @@ variable "bypass_platform_safety_checks_on_user_schedule_enabled" {
   type        = bool
   default     = true
 }
+
+variable "disk_controller_type" {
+  description = "(Optional) Specifies the Disk Controller Type used for this Virtual Machine. Possible values are SCSI and NVMe. Required to be set to NVMe for VM size families whose HyperVGenerations/DiskControllerTypes capabilities are NVMe-only (e.g. the Dav6 family) - those sizes reject the azurerm/Azure default of SCSI at create time. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "allow_extension_operations" {
+  description = "(Optional) Should Extension Operations be allowed on this Virtual Machine? Defaults to true."
+  type        = bool
+  default     = null
+}
+
+variable "capacity_reservation_group_id" {
+  description = "(Optional) Specifies the ID of the Capacity Reservation Group which the Virtual Machine should be allocated into. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "dedicated_host_group_id" {
+  description = "(Optional) The ID of a Dedicated Host Group that this Windows Virtual Machine should be run within. Conflicts with dedicated_host_id."
+  type        = string
+  default     = null
+}
+
+variable "dedicated_host_id" {
+  description = "(Optional) The ID of a Dedicated Host where this machine should be run on. Conflicts with dedicated_host_group_id."
+  type        = string
+  default     = null
+}
+
+variable "edge_zone" {
+  description = "(Optional) Specifies the Edge Zone within the Azure Region where this Virtual Machine should exist. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "encryption_at_host_enabled" {
+  description = "(Optional) Should all of the disks (including the temp disk) attached to this Virtual Machine be encrypted by enabling Encryption at Host?"
+  type        = bool
+  default     = null
+}
+
+variable "hotpatching_enabled" {
+  description = "(Optional) Should the VM be patched without requiring a reboot? Only supported on Azure generation 2 hotpatching-capable images. Requires patch_mode to be set to AutomaticByPlatform and provision_vm_agent to be true."
+  type        = bool
+  default     = null
+}
+
+variable "proximity_placement_group_id" {
+  description = "(Optional) The ID of the Proximity Placement Group which the Virtual Machine should be assigned to. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "reboot_setting" {
+  description = "(Optional) Specifies the reboot setting for the Virtual Machine in response to patches requiring reboot. Possible values are Always, IfRequired and Never. Can only be set when patch_mode is AutomaticByPlatform."
+  type        = string
+  default     = null
+}
+
+variable "secure_boot_enabled" {
+  description = "(Optional) Specifies whether secure boot should be enabled on the Virtual Machine. Changing this forces a new resource to be created."
+  type        = bool
+  default     = null
+}
+
+variable "vtpm_enabled" {
+  description = "(Optional) Specifies whether vTPM should be enabled on the Virtual Machine. Changing this forces a new resource to be created."
+  type        = bool
+  default     = null
+}
+
+variable "timezone" {
+  description = "(Optional) Specifies the Time Zone which should be used by the Virtual Machine. Changing this forces a new resource to be created."
+  type        = string
+  default     = null
+}
+
+variable "user_data" {
+  description = "(Optional) The Base64-Encoded User Data which should be used for this Virtual Machine."
+  type        = string
+  default     = null
+}
+
+variable "virtual_machine_scale_set_id" {
+  description = "(Optional) Specifies the Orchestrated Virtual Machine Scale Set that this Virtual Machine should be created within. Conflicts with availability_set_id."
+  type        = string
+  default     = null
+}

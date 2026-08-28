@@ -114,6 +114,21 @@ resource "azurerm_windows_virtual_machine" "VM" {
   source_image_id                                        = var.source_image_id
   automatic_updates_enabled                              = var.enable_automatic_updates # azurerm >= 5.0: enable_automatic_updates arg renamed automatic_updates_enabled; module variable name kept for backward compatibility
   bypass_platform_safety_checks_on_user_schedule_enabled = var.bypass_platform_safety_checks_on_user_schedule_enabled
+  disk_controller_type                                   = var.disk_controller_type
+  allow_extension_operations                             = var.allow_extension_operations
+  capacity_reservation_group_id                          = var.capacity_reservation_group_id
+  dedicated_host_group_id                                = var.dedicated_host_group_id
+  dedicated_host_id                                      = var.dedicated_host_id
+  edge_zone                                              = var.edge_zone
+  encryption_at_host_enabled                             = var.encryption_at_host_enabled
+  hotpatching_enabled                                    = var.hotpatching_enabled
+  proximity_placement_group_id                           = var.proximity_placement_group_id
+  reboot_setting                                         = var.reboot_setting
+  secure_boot_enabled                                    = var.secure_boot_enabled
+  vtpm_enabled                                           = var.vtpm_enabled
+  timezone                                               = var.timezone
+  user_data                                              = var.user_data
+  virtual_machine_scale_set_id                           = var.virtual_machine_scale_set_id
   dynamic "source_image_reference" {
     for_each = var.source_image_id == null ? ["1"] : [] # If there is a source image id provided then don't use source_image_reference
     content {
