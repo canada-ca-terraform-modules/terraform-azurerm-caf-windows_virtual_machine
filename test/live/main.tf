@@ -55,10 +55,10 @@ module "windows_virtual_machine" {
   # No public IPs allowed in this environment.
   public_ip = false
 
-  # Required workaround: bypass_platform_safety_checks_on_user_schedule_enabled
-  # defaults to true while patch_mode defaults to null, which azurerm rejects
-  # ("patch_mode must be set to AutomaticByPlatform when
-  # bypass_platform_safety_checks_on_user_schedule_enabled is set to true").
-  # Without this, apply fails for ANY config, not just an expanded one.
+  # patch_mode must be set to AutomaticByPlatform whenever
+  # bypass_platform_safety_checks_on_user_schedule_enabled is set to true.
+  # bypass_platform_safety_checks_on_user_schedule_enabled now defaults to
+  # null (unmanaged), so this is no longer a required workaround, just an
+  # explicit choice for this harness.
   patch_mode = "AutomaticByPlatform"
 }

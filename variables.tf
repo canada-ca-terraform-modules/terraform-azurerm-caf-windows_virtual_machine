@@ -328,9 +328,9 @@ variable "enable_automatic_updates" {
 }
 
 variable "bypass_platform_safety_checks_on_user_schedule_enabled" {
-  description = "(Optional) Specifies whether to skip platform scheduled patching when a user schedule is associated with the VM."
+  description = "(Optional) Specifies whether to skip platform scheduled patching when a user schedule is associated with the VM. Defaults to null (unmanaged/Azure default) to match the null defaults of patch_mode and patch_assessment_mode, and to avoid forcing a value on callers that don't set it."
   type        = bool
-  default     = true
+  default     = null
 }
 
 variable "disk_controller_type" {
